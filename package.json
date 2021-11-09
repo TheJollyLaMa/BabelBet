@@ -1,0 +1,17 @@
+{
+  "name": "babelbet",
+  "version": "1.0.0",
+  "description": "Duolingo Peer Challenge Dapp with Web3 in python and node",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+
+  },
+  "author": "TheJollyLaMa",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
