@@ -1,8 +1,14 @@
 # Duolingo Peer Challenge Dapp with Web3 in Python and Node
 
 Unofficial Duolingo API Written in Python by KartikTalwar.
+https://github.com/KartikTalwar/Duolingo#get-calendar
 
-BabelBet by TheJollyLaMa
+Unofficial Duolingo API for browser and NodeJs by acSpock
+https://github.com/acSpock/duolingo-js
+
+
+
+### BabelBet by TheJollyLaMa
 
 ##### TODO
 
@@ -15,6 +21,8 @@ $ pip install duolingo-api
 npm install
 
 <!--
+
+
 ### Usage
 
 ```py

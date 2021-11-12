@@ -1,0 +1,10 @@
+<div ng-controller="BehindTheCounterController" ng-init="fetchusername();">
+  <atnavbarbehindthecounter></atnavbarbehindthecounter>
+  <div class="view2">
+    <div><p>Hi <strong>{{username}}</strong>! You are <strong>{{title}}</strong>! <a href="#!/BehindTheCounter/RoastList" class="backend_category_buttons btn btn-default"><strong>Lets Get Roast'n!</strong></a></p></div>
+    <div class="scroller"><h1><a class="backend_category_buttons btn btn-default" ng-repeat = "category in backend_category" href="#!/BehindTheCounter/{{category.name}}"><strong>{{category.name}}</strong></a></h1></div>
+    <div class="scroller"><h1><a class="backend_category_buttons btn btn-default" ng-repeat = "link in useful_links" href="{{link.url}}" target="_blank"><strong>{{link.name}}</strong></a></h1></div>
+    <div class="scroller"><h1><a class="backend_category_buttons btn btn-default" ng-repeat = "link in dev_links" href="{{link.url}}" ><strong>{{link.name}}</strong></a></h1></div>
+    <div><h1><a class="backend_category_buttons btn btn-default" href='#!/Logout'>Logout</a></h1></div>
+  </div>
+</div>

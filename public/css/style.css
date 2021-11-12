@@ -1,0 +1,81 @@
+body {
+  padding: 50px;
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  color: orange;
+  /* background-image: url('../img/HopenHagen.jpeg'); */
+  /* background-repeat: no-repeat; */
+  /* background-size: cover; */
+  background-color: #fae6c3;
+}
+
+a {
+  color: #394770;
+}
+h2,h3,h4 {
+  color: #394770;
+}
+footer {
+  margin-bottom: 5px;
+}
+.challenge {
+  padding: 20px;
+  margin: 10px;
+  /* background-image: url('../img/Earth_Background.png'); */
+  /* background-repeat: no-repeat; */
+  /* background-size: cover; */
+  width: 100%;
+  height: 800px;
+  border-radius: 10px;
+}
+
+.about {
+  padding: 20px;
+  margin: 10px;
+  /* background-image: url('../img/Paria.jpg'); */
+  /* background-repeat: no-repeat; */
+  /* background-size: cover; */
+  width: 100%;
+  height: 800px;
+  border-radius: 10px;
+}
+/* .youtubevid {
+  padding: 20px;
+  margin: 10px;
+} */
+.img {
+  background-repeat: no-repeat;
+  background-size: cover;
+  width: 90%;
+  height: 90%;
+  border-radius: 10px;
+}
+
+
+/* FORM STYLING */
+/* Style inputs with type="text", select elements and textareas */
+.challenge input {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+  margin-top: 6px;
+  margin-bottom: 16px;
+  resize: vertical;
+  color: green;
+}
+
+/* When moving the mouse over the submit button, add a darker green color */
+.challenge button:hover {
+  background-color: #45a049;
+}
+
+/* Add a background color and some padding around the form */
+.container {
+  border-radius: 5px;
+  background-color: #f2f2f2;
+  padding: 20px;
+  margin: 5px;
+  color: black;
+  opacity: 60%
+}
