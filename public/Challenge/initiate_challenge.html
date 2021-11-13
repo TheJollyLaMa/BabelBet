@@ -34,22 +34,28 @@
               <div class="form-group">
                   <label for="initiator_eth_account">Your Eth Account : {{initiator_eth_account}}</label>
                   <i class="fa fa-key"></i>
-                  <input type="text" name="initiator_eth_account" id="initiator_eth_account" class="form-control centered" ng-model="initiate_challenge_form.initiator_eth_account" required />
+                  <input type="text" name="initiator_eth_account" id="initiator_eth_account" class="form-control centered" ng-model="initiate_challenge_form.initiator_eth_account" ng-value="account" required />
                   <span ng-show="initiate_challenge_form.initiator_eth_account.$dirty && initiate_challenge_form.initiator_eth_account.$error.required" class="help-block">Your Eth account is required</span>
               </div>
               <br><hr><br>
-              <div><h4>Your Duolingo Info</h4></div>
+              <div><h4>Duolingo Info</h4></div>
               <div class="form-group">
-                  <label for="duo_username">Duo Username : {{duo_username}}</label>
+                  <label for="initiator_duo_username">Your Duo Username : {{initiator_duo_username}}</label>
                   <i class="fa fa-key"></i>
-                  <input type="text" name="duo_username" id="duo_username" class="form-control centered" ng-model="initiate_challenge_form.duo_username" required />
-                  <span ng-show="initiate_challenge_form.duo_username.$dirty && initiate_challenge_form.duo_username.$error.required" class="help-block">Duolingo Username is required</span>
+                  <input type="text" name="initiator_duo_username" id="initiator_duo_username" class="form-control centered" ng-model="initiate_challenge_form.initiator_duo_username" required />
+                  <span ng-show="initiate_challenge_form.initiator_duo_username.$dirty && initiate_challenge_form.initiator_duo_username.$error.required" class="help-block">Duolingo Username is required</span>
               </div>
               <div class="form-group">
-                  <label for="duo_password">Duo Password: {{duo_password}}</label>
+                  <label for="initiator_duo_password">Your Duo Password: {{initiator_duo_password}}</label>
                   <i class="fa fa-lock"></i>
-                  <input type="password" name="duo_password" id="duo_password" class="form-control" ng-model="initiate_challenge_form.duo_password" required />
-                  <span ng-show="initiate_challenge_form.duo_password.$dirty && initiate_challenge_form.duo_password.$error.required" class="help-block">Duo Password is required</span>
+                  <input type="password" name="initiator_duo_password" id="initiator_duo_password" class="form-control" ng-model="initiate_challenge_form.initiator_duo_password" required />
+                  <span ng-show="initiate_challenge_form.initiator_duo_password.$dirty && initiate_challenge_form.initiator_duo_password.$error.required" class="help-block">Your Duo Password is required</span>
+              </div>
+              <div class="form-group">
+                  <label for="duo_username_to_challenge">Duo Username to Challenge: {{duo_username_to_challenge}}</label>
+                  <i class="fa fa-key"></i>
+                  <input type="text" name="duo_username_to_challenge" id="duo_username_to_challenge" class="form-control centered" ng-model="initiate_challenge_form.duo_username_to_challenge" required />
+                  <span ng-show="initiate_challenge_form.duo_username_to_challenge.$dirty && initiate_challenge_form.duo_username_to_challenge.$error.required" class="help-block">Their Duolingo Username is required</span>
               </div>
               <br><hr><br>
               <!--
@@ -90,4 +96,5 @@
           </form>
       </div>
   </div>
+  {{CT_X_json.network}}
 </div>

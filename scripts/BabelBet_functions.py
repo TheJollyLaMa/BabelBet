@@ -15,7 +15,7 @@ def chooseChallenge():
 def sendChallengeProposalEmail(_languanaut1, _languanaut2, _terms):
     challenge_state = "negotiating"
     USERNAME = 'boyyee44@gmail.com' # input("What is your email? ")
-    PASSWORD = 'FYs-KcD-AvS-N4S' # input("What is your email? ")
+    PASSWORD = '' # input("What is your email? ")
     MAILTO = 'solarmail888@gmail.com' # input("What is your fellow Languanaut's email? ")
 
     msg = MIMEMultipart()

@@ -16,6 +16,10 @@ var app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+/* Smart Contract ABI on Ethereum or Matic or whatever suits your purposes */
+app.use('/abis/ChallengeToken.json', express.static('abis/ChallengeToken.json'));
+app.use('/abis/CT_X.json', express.static('abis/CT_X.json'));
+
 // view engine setup
 app.set('views', path.join(__dirname, 'BackendViews'));
 app.engine('html', require('ejs').renderFile);
