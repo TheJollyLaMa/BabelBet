@@ -4,10 +4,10 @@
 import uuid
 import duolingo
 import BabelBet_functions as BabelBet
-my_name = 'JollyLaMa1' # Duolingo Name     str(input('What is your Duolingo Username: '))
-yo_name = 'TeReDaDa10' # opponent = input("What is the Duolingo username of the Languanaut you'd like to challenge?")
-my_pass = 'fimfec-pybxaq-8qIfbi' # Duolingo Pass    str(input('Duolingo Password: '))
-yo_pass = 'rabder-0bAqxa-wanqex'
+my_name = '' # Duolingo Name     str(input('What is your Duolingo Username: '))
+yo_name = '' # opponent = input("What is the Duolingo username of the Languanaut you'd like to challenge?")
+my_pass = '' # Duolingo Pass    str(input('Duolingo Password: '))
+yo_pass = ''
 my_acc = "" # Eth account you want to withdraw from and pay to if you win challenge
 yo_acc = "" # Eth account of your opponent
 my_lingo = duolingo.Duolingo(my_name, my_pass)

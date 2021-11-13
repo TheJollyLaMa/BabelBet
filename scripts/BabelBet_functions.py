@@ -11,7 +11,6 @@ def chooseChallenge():
     challengeType = input("What type of challenge do you want to propose to your fellow Languanaut? ")
     activeChallengeList.append({'challengeID': challengeID, 'challengeType': challengeType })
     return challengeType
-#  email: SolarMail888@gmail.com     pass:FuckYourPasswordRules
 def sendChallengeProposalEmail(_languanaut1, _languanaut2, _terms):
     challenge_state = "negotiating"
     USERNAME = 'boyyee44@gmail.com' # input("What is your email? ")
