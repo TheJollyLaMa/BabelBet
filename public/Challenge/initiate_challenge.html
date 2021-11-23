@@ -4,6 +4,9 @@
     <br><hr>
     <div class="row">
       <div>Submit this form to challenge a competitor to a Dual o' Lingo</div>
+      <br>
+      <hr>
+      <br>
       <div class="col-md-4 col-md-offset-4">
           <br>
           <div ng-show="error" class="alert alert-danger" role"alert">{{error}}</div>
@@ -12,47 +15,47 @@
 
               <div><h4>Email Info</h4></div>
               <div class="form-group">
-                  <label for="initiator_email">Your Email : {{initiator_email}}</label>
+                  <label for="email">Your Email :</label>
                   <i class="fa fa-key"></i>
-                  <input type="email" name="initiator_email" id="initiator_email" class="form-control centered" ng-model="initiate_challenge_form.initiator_email" required />
-                  <span ng-show="initiate_challenge_form.initiator_email.$dirty && initiate_challenge_form.initiator_email.$error.required" class="help-block">Initiator Email is required</span>
+                  <input type="email" name="email" id="email" class="form-control centered" ng-model="initiate_challenge_form.email" required />
+                  <span ng-show="initiate_challenge_form.email.$dirty && initiate_challenge_form.email.$error.required" class="help-block">Initiator Email is required</span>
               </div>
               <div class="form-group">
-                  <label for="initiator_email_password">Password: {{initiator_email_password}}</label>
+                  <label for="email_password">Password:</label>
                   <i class="fa fa-lock"></i>
-                  <input type="password" name="initiator_email_password" id="initiator_email_password" class="form-control" ng-model="initiate_challenge_form.initiator_email_password" required />
-                  <span ng-show="initiate_challenge_form.initiator_email_password.$dirty && initiate_challenge_form.initiator_email_password.$error.required" class="help-block">Initiator Email Password is required</span>
+                  <input type="password" name="email_password" id="email_password" class="form-control" ng-model="initiate_challenge_form.email_password" required />
+                  <span ng-show="initiate_challenge_form.email_password.$dirty && initiate_challenge_form.email_password.$error.required" class="help-block">Initiator Email Password is required</span>
               </div>
               <div class="form-group">
-                  <label for="email_to_challenge">Email to Challenge : {{email_to_challenge}}</label>
+                  <label for="email_to_challenge">Email to Challenge :</label>
                   <i class="fa fa-key"></i>
                   <input type="email" name="email_to_challenge" id="email_to_challenge" class="form-control centered" ng-model="initiate_challenge_form.email_to_challenge" required />
-                  <span ng-show="initiate_challenge_form.email_to_challenge.$dirty && initiate_challenge_form.email_to_challenge.$error.required" class="help-block">Duolingo Username is required</span>
+                  <span ng-show="initiate_challenge_form.email_to_challenge.$dirty && initiate_challenge_form.email_to_challenge.$error.required" class="help-block">A Challenger Email is required</span>
               </div>
               <br><hr><br>
               <div><h4>Eth Account</h4></div>
               <div class="form-group">
-                  <label for="initiator_eth_account">Your Eth Account : {{initiator_eth_account}}</label>
+                  <label for="eth_account">Your Eth Account :</label>
                   <i class="fa fa-key"></i>
-                  <input type="text" name="initiator_eth_account" id="initiator_eth_account" class="form-control centered" ng-model="initiate_challenge_form.initiator_eth_account" ng-value="account" required />
-                  <span ng-show="initiate_challenge_form.initiator_eth_account.$dirty && initiate_challenge_form.initiator_eth_account.$error.required" class="help-block">Your Eth account is required</span>
+                  <input READONLY type="text" name="eth_account" id="eth_account" class="form-control centered" ng-model="initiate_challenge_form.eth_account" required />
+                  <span ng-show="initiate_challenge_form.eth_account.$dirty && initiate_challenge_form.eth_account.$error.required" class="help-block">Your Eth account is required</span>
               </div>
               <br><hr><br>
               <div><h4>Duolingo Info</h4></div>
               <div class="form-group">
-                  <label for="initiator_duo_username">Your Duo Username : {{initiator_duo_username}}</label>
+                  <label for="duo_username">Your Duo Username :</label>
                   <i class="fa fa-key"></i>
-                  <input type="text" name="initiator_duo_username" id="initiator_duo_username" class="form-control centered" ng-model="initiate_challenge_form.initiator_duo_username" required />
-                  <span ng-show="initiate_challenge_form.initiator_duo_username.$dirty && initiate_challenge_form.initiator_duo_username.$error.required" class="help-block">Duolingo Username is required</span>
+                  <input type="text" name="duo_username" id="duo_username" class="form-control centered" ng-model="initiate_challenge_form.duo_username" required />
+                  <span ng-show="initiate_challenge_form.duo_username.$dirty && initiate_challenge_form.duo_username.$error.required" class="help-block">Duolingo Username is required</span>
               </div>
               <div class="form-group">
-                  <label for="initiator_duo_password">Your Duo Password: {{initiator_duo_password}}</label>
+                  <label for="duo_password">Your Duo Password:</label>
                   <i class="fa fa-lock"></i>
-                  <input type="password" name="initiator_duo_password" id="initiator_duo_password" class="form-control" ng-model="initiate_challenge_form.initiator_duo_password" required />
-                  <span ng-show="initiate_challenge_form.initiator_duo_password.$dirty && initiate_challenge_form.initiator_duo_password.$error.required" class="help-block">Your Duo Password is required</span>
+                  <input type="password" name="duo_password" id="duo_password" class="form-control" ng-model="initiate_challenge_form.duo_password" required />
+                  <span ng-show="initiate_challenge_form.duo_password.$dirty && initiate_challenge_form.duo_password.$error.required" class="help-block">Your Duo Password is required</span>
               </div>
               <div class="form-group">
-                  <label for="duo_username_to_challenge">Duo Username to Challenge: {{duo_username_to_challenge}}</label>
+                  <label for="duo_username_to_challenge">Duo Username to Challenge:</label>
                   <i class="fa fa-key"></i>
                   <input type="text" name="duo_username_to_challenge" id="duo_username_to_challenge" class="form-control centered" ng-model="initiate_challenge_form.duo_username_to_challenge" required />
                   <span ng-show="initiate_challenge_form.duo_username_to_challenge.$dirty && initiate_challenge_form.duo_username_to_challenge.$error.required" class="help-block">Their Duolingo Username is required</span>
@@ -60,23 +63,23 @@
               <br><hr><br>
               <!--
               Challenge Idea:
-                race to the finish - whoever completes the most levels in a time period wins!
+                race to the finish - whoever completes the most levels or earns most XP in a time period wins!
                -->
               <div><h4>Challenge Proposal</h4></div>
               <div class="form-group">
-                  <label for="proposal.type">Challenge Type : {{proposal.type}}</label>
+                  <label for="proposal.type">Challenge Type :</label>
                   <i class="fa fa-key"></i>
                   <input type="text" name="proposal.type" id="proposal.type" class="form-control centered" ng-model="initiate_challenge_form.proposal.type" required />
                   <span ng-show="initiate_challenge_form.proposal.type.$dirty && initiate_challenge_form.proposal.type.$error.required" class="help-block">Duolingo Username is required</span>
               </div>
               <div class="form-group">
-                  <label for="proposal.days">Streak Goal: {{proposal.days}}</label>
+                  <label for="proposal.days">Streak Goal:</label>
                   <i class="fa fa-lock"></i>
                   <input type="number" name="proposal.days" id="proposal.days" class="form-control" ng-model="initiate_challenge_form.proposal.days" required />
                   <span ng-show="initiate_challenge_form.proposal.days.$dirty && initiate_challenge_form.proposal.days.$error.required" class="help-block">Duo Password is required</span>
               </div>
               <div class="form-group">
-                  <label for="proposal.amount">Amount to Stake: {{proposal.amount}}</label>
+                  <label for="proposal.amount">Amount to Stake:</label>
                   <i class="fa fa-lock"></i>
                   <input type="number" name="proposal.amount" id="proposal.amount" class="form-control" ng-model="initiate_challenge_form.proposal.amount" required />
                   <span ng-show="initiate_challenge_form.proposal.amount.$dirty && initiate_challenge_form.proposal.amount.$error.required" class="help-block">Duo Password is required</span>
@@ -85,16 +88,32 @@
 
               <br><br>
               <div class="form-actions">
-                  <button
-                    type="submit"
-                    ng-disabled="form.$invalid || dataLoading || !initiate_challenge_form.initiator_email || !initiate_challenge_form.initiator_email_password || !initiate_challenge_form.email_to_challenge || !initiate_challenge_form.initiator_eth_account || !initiate_challenge_form.duo_username || !initiate_challenge_form.duo_password || !initiate_challenge_form.proposal.type || !initiate_challenge_form.proposal.days || !initiate_challenge_form.proposal.amount"
-                    class="btn btn-danger">
-                  Initiate Challenge
+                  <button type="submit"
+                          ng-disabled="form.$invalid || dataLoading ||
+                          !initiate_challenge_form.email ||
+                           !initiate_challenge_form.email_password||
+                            !initiate_challenge_form.email_to_challenge ||
+                             !initiate_challenge_form.eth_account ||
+                              !initiate_challenge_form.duo_username ||
+                               !initiate_challenge_form.duo_password ||
+                                !initiate_challenge_form.duo_username_to_challenge ||
+                                 !initiate_challenge_form.proposal.type ||
+                                  !initiate_challenge_form.proposal.days ||
+                                   !initiate_challenge_form.proposal.amount"
+                          class="btn btn-primary">
+                          Initiate Challenge
                   </button>
               </div>
               <br><br>
           </form>
       </div>
   </div>
-  {{CT_X_json.network}}
+  <br><br><br>
+  <footer>
+    <hr>
+    <div class="col-sm-4">Another Jolly Creation 2021</div>
+    <div class="col-sm-4">License: MIT</div>
+    <div class="col-sm-4"><a href="https://etherscan.io/{{contract_address}}" style="text-decoration:none;" target="_blank">{{contract_address}}</a></div>
+    <hr>
+  </footer>
 </div>

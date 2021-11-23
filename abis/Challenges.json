@@ -1,24 +1,24 @@
 {
   "contractName": "Challenges",
   "abi": [],
-  "metadata": "{\"compiler\":{\"version\":\"0.8.0+commit.c7dfd78e\"},\"language\":\"Solidity\",\"output\":{\"abi\":[],\"devdoc\":{\"kind\":\"dev\",\"methods\":{},\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{},\"version\":1}},\"settings\":{\"compilationTarget\":{\"project:/contracts/Challenge.sol\":\"Challenges\"},\"evmVersion\":\"istanbul\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"enabled\":false,\"runs\":200},\"remappings\":[]},\"sources\":{\"project:/contracts/Challenge.sol\":{\"keccak256\":\"0x9dbf81e2c49dce5bfb202038bda3fd4cdb90ccb2cc65a5a566215ee3dc49bf68\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://83b3163ecf7310fb7b8a3d9b6cb1ce941f1c847e561aedc01a811fde4c4534e4\",\"dweb:/ipfs/QmWF5bKiMN1BQ8w94qjTKYjuT7ABPrPZ37fNpQR5tdN1vX\"]}},\"version\":1}",
-  "bytecode": "0x60566050600b82828239805160001a6073146043577f4e487b7100000000000000000000000000000000000000000000000000000000600052600060045260246000fd5b30600052607381538281f3fe73000000000000000000000000000000000000000030146080604052600080fdfea264697066735822122070aadc3a1f08098bb8eef751576a08ba15234e8910c9650917d8e98c116c334564736f6c63430008000033",
-  "deployedBytecode": "0x73000000000000000000000000000000000000000030146080604052600080fdfea264697066735822122070aadc3a1f08098bb8eef751576a08ba15234e8910c9650917d8e98c116c334564736f6c63430008000033",
+  "metadata": "{\"compiler\":{\"version\":\"0.8.0+commit.c7dfd78e\"},\"language\":\"Solidity\",\"output\":{\"abi\":[],\"devdoc\":{\"kind\":\"dev\",\"methods\":{},\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{},\"version\":1}},\"settings\":{\"compilationTarget\":{\"project:/contracts/Challenge.sol\":\"Challenges\"},\"evmVersion\":\"istanbul\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"enabled\":false,\"runs\":200},\"remappings\":[]},\"sources\":{\"project:/contracts/Challenge.sol\":{\"keccak256\":\"0x0b2bb6221edce03aad6fab71d70e8d31874ce258503e53a5394ede585a1f9c78\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://3d32eea2ed77eb82c113c59c9395bba95043888ba76e89121e467dd1c294f42d\",\"dweb:/ipfs/QmcRmCo3fWAyAJyk7YqwtLyUzH3kZQtdBCJgxcBRyUiEu7\"]}},\"version\":1}",
+  "bytecode": "0x60566050600b82828239805160001a6073146043577f4e487b7100000000000000000000000000000000000000000000000000000000600052600060045260246000fd5b30600052607381538281f3fe73000000000000000000000000000000000000000030146080604052600080fdfea2646970667358221220bb382b530a46523f5ad4d70a4b4591899518e57e9fa681bf9ee9e07dade9a0bc64736f6c63430008000033",
+  "deployedBytecode": "0x73000000000000000000000000000000000000000030146080604052600080fdfea2646970667358221220bb382b530a46523f5ad4d70a4b4591899518e57e9fa681bf9ee9e07dade9a0bc64736f6c63430008000033",
   "immutableReferences": {},
   "generatedSources": [],
   "deployedGeneratedSources": [],
-  "sourceMap": "59:219:10:-:0;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;",
-  "deployedSourceMap": "59:219:10:-:0;;;;;;;;",
-  "source": "// SPDX-License-Identifier: MIT\npragma solidity >= 0.8.0;\n\nlibrary Challenges {\n  struct Challenge {\n    address payable initiator;\n     bytes uri;\n      string name;\n       string sym;\n        uint256 id;  // the id of the token issuance\n         bytes mint_data;\n          }\n}\n",
+  "sourceMap": "59:177:10:-:0;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;",
+  "deployedSourceMap": "59:177:10:-:0;;;;;;;;",
+  "source": "// SPDX-License-Identifier: MIT\npragma solidity >= 0.8.0;\n\nlibrary Challenges {\n  struct Challenge {\n    address [] players;\n      string name;\n        uint256 id;  // the id of the token issuance\n         bytes mint_data;\n          }\n}\n",
   "sourcePath": "/Volumes/TerryBytes2/2021_Kode_Tut/BabelBet/contracts/Challenge.sol",
   "ast": {
     "absolutePath": "project:/contracts/Challenge.sol",
     "exportedSymbols": {
       "Challenges": [
-        1751
+        1748
       ]
     },
-    "id": 1752,
+    "id": 1749,
     "license": "MIT",
     "nodeType": "SourceUnit",
     "nodes": [
@@ -39,78 +39,61 @@
         "contractDependencies": [],
         "contractKind": "library",
         "fullyImplemented": true,
-        "id": 1751,
+        "id": 1748,
         "linearizedBaseContracts": [
-          1751
+          1748
         ],
         "name": "Challenges",
         "nodeType": "ContractDefinition",
         "nodes": [
           {
             "canonicalName": "Challenges.Challenge",
-            "id": 1750,
+            "id": 1747,
             "members": [
               {
                 "constant": false,
-                "id": 1739,
+                "id": 1740,
                 "mutability": "mutable",
-                "name": "initiator",
+                "name": "players",
                 "nodeType": "VariableDeclaration",
-                "scope": 1750,
-                "src": "105:25:10",
+                "scope": 1747,
+                "src": "105:18:10",
                 "stateVariable": false,
                 "storageLocation": "default",
                 "typeDescriptions": {
-                  "typeIdentifier": "t_address_payable",
-                  "typeString": "address payable"
+                  "typeIdentifier": "t_array$_t_address_$dyn_storage_ptr",
+                  "typeString": "address[]"
                 },
                 "typeName": {
-                  "id": 1738,
-                  "name": "address",
-                  "nodeType": "ElementaryTypeName",
-                  "src": "105:15:10",
-                  "stateMutability": "payable",
+                  "baseType": {
+                    "id": 1738,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "105:7:10",
+                    "stateMutability": "nonpayable",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "id": 1739,
+                  "nodeType": "ArrayTypeName",
+                  "src": "105:10:10",
                   "typeDescriptions": {
-                    "typeIdentifier": "t_address_payable",
-                    "typeString": "address payable"
+                    "typeIdentifier": "t_array$_t_address_$dyn_storage_ptr",
+                    "typeString": "address[]"
                   }
                 },
                 "visibility": "internal"
               },
               {
                 "constant": false,
-                "id": 1741,
-                "mutability": "mutable",
-                "name": "uri",
-                "nodeType": "VariableDeclaration",
-                "scope": 1750,
-                "src": "137:9:10",
-                "stateVariable": false,
-                "storageLocation": "default",
-                "typeDescriptions": {
-                  "typeIdentifier": "t_bytes_storage_ptr",
-                  "typeString": "bytes"
-                },
-                "typeName": {
-                  "id": 1740,
-                  "name": "bytes",
-                  "nodeType": "ElementaryTypeName",
-                  "src": "137:5:10",
-                  "typeDescriptions": {
-                    "typeIdentifier": "t_bytes_storage_ptr",
-                    "typeString": "bytes"
-                  }
-                },
-                "visibility": "internal"
-              },
-              {
-                "constant": false,
-                "id": 1743,
+                "id": 1742,
                 "mutability": "mutable",
                 "name": "name",
                 "nodeType": "VariableDeclaration",
-                "scope": 1750,
-                "src": "154:11:10",
+                "scope": 1747,
+                "src": "131:11:10",
                 "stateVariable": false,
                 "storageLocation": "default",
                 "typeDescriptions": {
@@ -118,10 +101,10 @@
                   "typeString": "string"
                 },
                 "typeName": {
-                  "id": 1742,
+                  "id": 1741,
                   "name": "string",
                   "nodeType": "ElementaryTypeName",
-                  "src": "154:6:10",
+                  "src": "131:6:10",
                   "typeDescriptions": {
                     "typeIdentifier": "t_string_storage_ptr",
                     "typeString": "string"
@@ -131,38 +114,12 @@
               },
               {
                 "constant": false,
-                "id": 1745,
-                "mutability": "mutable",
-                "name": "sym",
-                "nodeType": "VariableDeclaration",
-                "scope": 1750,
-                "src": "174:10:10",
-                "stateVariable": false,
-                "storageLocation": "default",
-                "typeDescriptions": {
-                  "typeIdentifier": "t_string_storage_ptr",
-                  "typeString": "string"
-                },
-                "typeName": {
-                  "id": 1744,
-                  "name": "string",
-                  "nodeType": "ElementaryTypeName",
-                  "src": "174:6:10",
-                  "typeDescriptions": {
-                    "typeIdentifier": "t_string_storage_ptr",
-                    "typeString": "string"
-                  }
-                },
-                "visibility": "internal"
-              },
-              {
-                "constant": false,
-                "id": 1747,
+                "id": 1744,
                 "mutability": "mutable",
                 "name": "id",
                 "nodeType": "VariableDeclaration",
-                "scope": 1750,
-                "src": "194:10:10",
+                "scope": 1747,
+                "src": "152:10:10",
                 "stateVariable": false,
                 "storageLocation": "default",
                 "typeDescriptions": {
@@ -170,10 +127,10 @@
                   "typeString": "uint256"
                 },
                 "typeName": {
-                  "id": 1746,
+                  "id": 1743,
                   "name": "uint256",
                   "nodeType": "ElementaryTypeName",
-                  "src": "194:7:10",
+                  "src": "152:7:10",
                   "typeDescriptions": {
                     "typeIdentifier": "t_uint256",
                     "typeString": "uint256"
@@ -183,12 +140,12 @@
               },
               {
                 "constant": false,
-                "id": 1749,
+                "id": 1746,
                 "mutability": "mutable",
                 "name": "mint_data",
                 "nodeType": "VariableDeclaration",
-                "scope": 1750,
-                "src": "248:15:10",
+                "scope": 1747,
+                "src": "206:15:10",
                 "stateVariable": false,
                 "storageLocation": "default",
                 "typeDescriptions": {
@@ -196,10 +153,10 @@
                   "typeString": "bytes"
                 },
                 "typeName": {
-                  "id": 1748,
+                  "id": 1745,
                   "name": "bytes",
                   "nodeType": "ElementaryTypeName",
-                  "src": "248:5:10",
+                  "src": "206:5:10",
                   "typeDescriptions": {
                     "typeIdentifier": "t_bytes_storage_ptr",
                     "typeString": "bytes"
@@ -210,25 +167,25 @@
             ],
             "name": "Challenge",
             "nodeType": "StructDefinition",
-            "scope": 1751,
-            "src": "82:194:10",
+            "scope": 1748,
+            "src": "82:152:10",
             "visibility": "public"
           }
         ],
-        "scope": 1752,
-        "src": "59:219:10"
+        "scope": 1749,
+        "src": "59:177:10"
       }
     ],
-    "src": "32:247:10"
+    "src": "32:205:10"
   },
   "legacyAST": {
     "absolutePath": "project:/contracts/Challenge.sol",
     "exportedSymbols": {
       "Challenges": [
-        1751
+        1748
       ]
     },
-    "id": 1752,
+    "id": 1749,
     "license": "MIT",
     "nodeType": "SourceUnit",
     "nodes": [
@@ -249,78 +206,61 @@
         "contractDependencies": [],
         "contractKind": "library",
         "fullyImplemented": true,
-        "id": 1751,
+        "id": 1748,
         "linearizedBaseContracts": [
-          1751
+          1748
         ],
         "name": "Challenges",
         "nodeType": "ContractDefinition",
         "nodes": [
           {
             "canonicalName": "Challenges.Challenge",
-            "id": 1750,
+            "id": 1747,
             "members": [
               {
                 "constant": false,
-                "id": 1739,
+                "id": 1740,
                 "mutability": "mutable",
-                "name": "initiator",
+                "name": "players",
                 "nodeType": "VariableDeclaration",
-                "scope": 1750,
-                "src": "105:25:10",
+                "scope": 1747,
+                "src": "105:18:10",
                 "stateVariable": false,
                 "storageLocation": "default",
                 "typeDescriptions": {
-                  "typeIdentifier": "t_address_payable",
-                  "typeString": "address payable"
+                  "typeIdentifier": "t_array$_t_address_$dyn_storage_ptr",
+                  "typeString": "address[]"
                 },
                 "typeName": {
-                  "id": 1738,
-                  "name": "address",
-                  "nodeType": "ElementaryTypeName",
-                  "src": "105:15:10",
-                  "stateMutability": "payable",
+                  "baseType": {
+                    "id": 1738,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "105:7:10",
+                    "stateMutability": "nonpayable",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "id": 1739,
+                  "nodeType": "ArrayTypeName",
+                  "src": "105:10:10",
                   "typeDescriptions": {
-                    "typeIdentifier": "t_address_payable",
-                    "typeString": "address payable"
+                    "typeIdentifier": "t_array$_t_address_$dyn_storage_ptr",
+                    "typeString": "address[]"
                   }
                 },
                 "visibility": "internal"
               },
               {
                 "constant": false,
-                "id": 1741,
-                "mutability": "mutable",
-                "name": "uri",
-                "nodeType": "VariableDeclaration",
-                "scope": 1750,
-                "src": "137:9:10",
-                "stateVariable": false,
-                "storageLocation": "default",
-                "typeDescriptions": {
-                  "typeIdentifier": "t_bytes_storage_ptr",
-                  "typeString": "bytes"
-                },
-                "typeName": {
-                  "id": 1740,
-                  "name": "bytes",
-                  "nodeType": "ElementaryTypeName",
-                  "src": "137:5:10",
-                  "typeDescriptions": {
-                    "typeIdentifier": "t_bytes_storage_ptr",
-                    "typeString": "bytes"
-                  }
-                },
-                "visibility": "internal"
-              },
-              {
-                "constant": false,
-                "id": 1743,
+                "id": 1742,
                 "mutability": "mutable",
                 "name": "name",
                 "nodeType": "VariableDeclaration",
-                "scope": 1750,
-                "src": "154:11:10",
+                "scope": 1747,
+                "src": "131:11:10",
                 "stateVariable": false,
                 "storageLocation": "default",
                 "typeDescriptions": {
@@ -328,10 +268,10 @@
                   "typeString": "string"
                 },
                 "typeName": {
-                  "id": 1742,
+                  "id": 1741,
                   "name": "string",
                   "nodeType": "ElementaryTypeName",
-                  "src": "154:6:10",
+                  "src": "131:6:10",
                   "typeDescriptions": {
                     "typeIdentifier": "t_string_storage_ptr",
                     "typeString": "string"
@@ -341,38 +281,12 @@
               },
               {
                 "constant": false,
-                "id": 1745,
-                "mutability": "mutable",
-                "name": "sym",
-                "nodeType": "VariableDeclaration",
-                "scope": 1750,
-                "src": "174:10:10",
-                "stateVariable": false,
-                "storageLocation": "default",
-                "typeDescriptions": {
-                  "typeIdentifier": "t_string_storage_ptr",
-                  "typeString": "string"
-                },
-                "typeName": {
-                  "id": 1744,
-                  "name": "string",
-                  "nodeType": "ElementaryTypeName",
-                  "src": "174:6:10",
-                  "typeDescriptions": {
-                    "typeIdentifier": "t_string_storage_ptr",
-                    "typeString": "string"
-                  }
-                },
-                "visibility": "internal"
-              },
-              {
-                "constant": false,
-                "id": 1747,
+                "id": 1744,
                 "mutability": "mutable",
                 "name": "id",
                 "nodeType": "VariableDeclaration",
-                "scope": 1750,
-                "src": "194:10:10",
+                "scope": 1747,
+                "src": "152:10:10",
                 "stateVariable": false,
                 "storageLocation": "default",
                 "typeDescriptions": {
@@ -380,10 +294,10 @@
                   "typeString": "uint256"
                 },
                 "typeName": {
-                  "id": 1746,
+                  "id": 1743,
                   "name": "uint256",
                   "nodeType": "ElementaryTypeName",
-                  "src": "194:7:10",
+                  "src": "152:7:10",
                   "typeDescriptions": {
                     "typeIdentifier": "t_uint256",
                     "typeString": "uint256"
@@ -393,12 +307,12 @@
               },
               {
                 "constant": false,
-                "id": 1749,
+                "id": 1746,
                 "mutability": "mutable",
                 "name": "mint_data",
                 "nodeType": "VariableDeclaration",
-                "scope": 1750,
-                "src": "248:15:10",
+                "scope": 1747,
+                "src": "206:15:10",
                 "stateVariable": false,
                 "storageLocation": "default",
                 "typeDescriptions": {
@@ -406,10 +320,10 @@
                   "typeString": "bytes"
                 },
                 "typeName": {
-                  "id": 1748,
+                  "id": 1745,
                   "name": "bytes",
                   "nodeType": "ElementaryTypeName",
-                  "src": "248:5:10",
+                  "src": "206:5:10",
                   "typeDescriptions": {
                     "typeIdentifier": "t_bytes_storage_ptr",
                     "typeString": "bytes"
@@ -420,16 +334,16 @@
             ],
             "name": "Challenge",
             "nodeType": "StructDefinition",
-            "scope": 1751,
-            "src": "82:194:10",
+            "scope": 1748,
+            "src": "82:152:10",
             "visibility": "public"
           }
         ],
-        "scope": 1752,
-        "src": "59:219:10"
+        "scope": 1749,
+        "src": "59:177:10"
       }
     ],
-    "src": "32:247:10"
+    "src": "32:205:10"
   },
   "compiler": {
     "name": "solc",
@@ -437,7 +351,7 @@
   },
   "networks": {},
   "schemaVersion": "3.4.3",
-  "updatedAt": "2021-11-12T23:16:02.261Z",
+  "updatedAt": "2021-11-22T00:32:32.318Z",
   "devdoc": {
     "kind": "dev",
     "methods": {},

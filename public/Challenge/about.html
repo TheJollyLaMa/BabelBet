@@ -1,6 +1,6 @@
-<div class="about">
+<div class="about" ng-controller="ChallengeController" ng-init="loadTheBlock();">
   <bbnavbarchallenge></bbnavbarchallenge>
-
+  <br><br>
   <div class="row">
     <div class="col-sm-4"><img height="200px" width="200px" src="./img/web3.png" alt="Duo"></div>
     <div class="col-sm-4"><img height="200px" width="200px" src="./img/Matic.png" alt="Duo"></div>
@@ -32,4 +32,12 @@
     <div class="col-sm-4"></div>
     <div class="col-sm-4"><a href="#!/InitiateChallenge" style="text-decoration:none;"><h3>Initiate Challenge</h3></a></div>
   </div>
+  <br><br><br>
+  <footer>
+    <hr>
+    <div class="col-sm-4">Another Jolly Creation 2021</div>
+    <div class="col-sm-4">License: MIT</div>
+    <div class="col-sm-4"><a href="https://etherscan.io/{{contract_address}}" style="text-decoration:none;" target="_blank">{{contract_address}}</a></div>
+    <hr>
+  </footer>
 </div>

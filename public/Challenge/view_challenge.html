@@ -1,28 +1,6 @@
-<div class="contact" ng-controller="PortfolioController">
-  <div class="container col-xs-12">
-    <h4>MaMaLaMa@yourofficialemail.com</h4>
-    <form action="action_page.php">
+<div class="contact" ng-controller="ChallengeController" ng-init="loadTheBlock();">
+  <bbnavbarchallenge></bbnavbarchallenge>
+  <br><br>
+  Redirects here after challenge is accepted to see the challenge just accepted in action!
 
-      <label for="fname">First Name</label>
-      <input type="text" id="fname" name="firstname" placeholder="Your name..">
-
-      <label for="lname">Last Name</label>
-      <input type="text" id="lname" name="lastname" placeholder="Your last name..">
-
-      <label for="country">Country</label>
-      <select id="country" name="country">
-        <option value="australia">Australia</option>
-        <option value="canada">Canada</option>
-        <option value="usa">USA</option>
-      </select>
-
-      <label for="subject">Subject</label>
-      <textarea id="subject" name="subject" placeholder="Write me something..." style="height:200px"></textarea>
-
-      <input type="submit" value="Submit">
-
-    </form>
-  </div>
-
-  <footer><a href="#!/Portfolio" style="text-decoration:none;"><h3>View Portfolio</h3></a></footer>
 </div>
