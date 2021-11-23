@@ -10,18 +10,35 @@ https://github.com/acSpock/duolingo-js
 
 ### BabelBet by TheJollyLaMa
 
-##### TODO
-
 
 ### Installation
 
 ```sh
-$ pip install duolingo-api
-```
 npm install
+npm test
+npm run dev
+```
+
+### Usage
+
+Babel Bet is a Decentralized Application (Dapp) leveraging Web3 and a smart contract in solidity to allow students of the Duolingo app to challenge each other to friendly wagers that make language training exciting by raising the stakes and involving friends in your journey!
+
+#### ToDo's
+
+finish up solidity contracts
+Make a better dashboard
+
+
+unit tests
+E2E tests
+Solidity tests
+Watcher function
+Codify more challenges
+Creative DeFi link ups in the Dashboard
+
 
 <!--
-
+From Kartik's Python version:
 
 ### Usage
 
