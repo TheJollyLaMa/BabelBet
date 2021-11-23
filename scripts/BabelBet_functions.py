@@ -43,7 +43,7 @@ def sendChallengeProposalEmail(_languanaut1, _languanaut2, _terms):
 def sendChallengeAcceptanceEmail(_languanaut2, _languanaut1, _terms):
     challenge_state = "accepted"
     USERNAME = 'SolarMail888@gmail.com'# languanaut2
-    PASSWORD = 'FuckYourPasswordRules' # languanaut2 pass
+    PASSWORD = '' # languanaut2 pass
     MAILTO = 'boyyee44@gmail.com' # languanaut1
 
     msg = MIMEMultipart()
@@ -70,7 +70,7 @@ def sendChallengeAcceptanceEmail(_languanaut2, _languanaut1, _terms):
 def sendCounterOfferEmail(_languanaut2, _languanaut1, _terms):
     challenge_state = "negotiating"
     USERNAME = 'SolarMail888@gmail.com'# languanaut2
-    PASSWORD = 'FuckYourPasswordRules' # languanaut2 pass
+    PASSWORD = '' # languanaut2 pass
     MAILTO = 'boyyee44@gmail.com' # languanaut1
 
     msg = MIMEMultipart()
