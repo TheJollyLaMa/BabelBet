@@ -7,5 +7,6 @@ library Challenges {
       string name;
         uint256 id;  // the id of the token issuance
          bytes mint_data;
+          uint status;
           }
 }

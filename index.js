@@ -61,40 +61,45 @@ cron.schedule('*/30 * * * * *', async () => {
   console.log(challenges);
 
   /*  For Each Challenge ...   */
-  for(var i=0; i <= challenges.length; i++){
-      /* --  Decode mint data to get both players names and streak_days. have to encode passwords for duolingo i think ... -- */
-      /* if mint data says challenge is paid, ignore it.
-          otherwise
-       Get Duo info of Both/All Players on the challenge's PlayerList */
+/*  for(var i=0; i <= challenges.length; i++){
+      // if not paid, or active challenge, or status not 1
+      if(challenges[i].status == 0){
+          //Get Duo info of Both/All Players on the challenge's PlayerList
 
-      /*-- for each player on the playerlist for this challenge --*/
-      player = {};
-      for(var j=0; j <= challenges[i].playerlist.length; j++){
-        var _name = challenges[i].playerlist[j][2];  //<-- looking for the third item in that player's spot in the playerlist - which should be that player's Duolingo name
-        var player[j] = Duolingo.Duolingo(_name, _pass);
-        var player[j]_duo_info = player[j].get_user_info();
-        /* If streak has not ended and goal has not been met, nothing happens - duolingo students continue showing up for language training every day!  */
-        /* if ( players_current_streak <= this_challenge_streak_days && player_streak =! 0) {
+          /*-- for each player on the playerlist for this challenge --*/
+          player = {};
+  /*      for(var j=0; j <= challenges[i].playerlist.length; j++){
+          var _name = challenges[i].playerlist[j][2];  //<-- looking for the third item in that player's spot in the playerlist - which should be that player's Duolingo name
+          var player[j] = Duolingo.Duolingo(_name, _pass);
+          var player[j]_duo_info = player[j].get_user_info();
+          // If streak has not ended and goal has not been met, nothing happens - duolingo students continue showing up for language training every day!
+          if ( players_current_streak <= this_challenge_streak_days && player_streak =! 0) {
                 // Play on Garth
                 // Play On Wayne
-         }else{
-         If goal has been met - meaning a player or players have a streak that is greater than the challenge streak goal,
-             pay player their stake back plus their divided portion of forfeitures and interest earned on escrow sweep
-             total pot is split amongst the players that completed the challenge successfully
+
+          }else {
+
+           // If goal has been met - meaning a player or players have a streak that is greater than the challenge streak goal,
               if ( players_current_streak > this_challenge_streak_days ) {
+                // pay player their stake back plus their divided portion of forfeitures and interest earned on escrow sweep
+
+                // total pot is split amongst the players that completed the challenge successfully
+                // add to payoutlist
+
+                // challenge status changed to 1 or PAID
+
                 //
+                //     emails to all players informing of payout and
+                //     challenge completion with link to challenge page
+                //     where players can view stats and past challeneges
+                //
+
+
               }
         }
         }
-
-
-
-
-          challenge is somehow marked as paid
-      */
-
-      /* emails to all players informing of payout and challenge completion with link to challenge page where players can view stats and past challeneges*/
-  }
+      }
+      }*/
   console.log('running a task every sixty seconds');
 
 });

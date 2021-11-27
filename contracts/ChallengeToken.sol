@@ -16,7 +16,7 @@ contract ChallengeToken is ERC1155, Ownable{
   mapping (uint256 => mapping(address => uint256)) public Player_Map;
 
   Challenges.Challenge[] public challenges;
-  event ManifestedChallengeToken(address [] players,string _name,uint256 _id,bytes mint_data);
+  event ManifestedChallengeToken(address [] players,string _name,uint256 _id,bytes mint_data,uint status);
 
     constructor()
     ERC1155("http://localhost:8888/public/#!/ChallengeTokenChest/{id}.json")
@@ -34,7 +34,7 @@ contract ChallengeToken is ERC1155, Ownable{
    returns (uint256) {
       // OA.transfer(msg.value);
       uint256 idmod = 10 ** 16;
-      uint256 token_id = uint256(keccak256(abi.encodePacked('_name')));
+      uint256 token_id = uint256(keccak256(abi.encodePacked(_name)));
       uint256 _id = token_id % idmod;
       require(!is_on_manifest[_id], "Err: Pick a Unique Challenge Name");
       Challenges.Challenge memory new_challenge;
@@ -43,6 +43,7 @@ contract ChallengeToken is ERC1155, Ownable{
       new_challenge.id = _id;
       bytes memory mintData = abi.encode(_mint_date, _type, _streak_days, _stake_amount);
       new_challenge.mint_data = mintData;
+      new_challenge.status = 0;
       challenges.push(new_challenge);
       map_initiator_to_id[msg.sender] = _id;
       map_id_to_Challenge[_id] = new_challenge;
@@ -55,7 +56,7 @@ contract ChallengeToken is ERC1155, Ownable{
           break;
         }
       }
-      emit ManifestedChallengeToken(new_challenge.players,new_challenge.name,new_challenge.id,new_challenge.mint_data);
+      emit ManifestedChallengeToken(new_challenge.players,new_challenge.name,new_challenge.id,new_challenge.mint_data,new_challenge.status);
       return _id;
   }
   function getChallenges() public view returns (Challenges.Challenge[] memory) {
