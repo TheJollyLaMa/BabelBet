@@ -23,9 +23,17 @@
 
               <br><hr>
               <div><h4>Challenge Information</h4></div>
-              <div class="form-group" ng-repeat="term in accept_challenge_form.proposal">
-                <input READONLY type="email" name="term[$index]" id="term[$index]" class="form-control centered" ng-model="accept_challenge_form.proposal[$index]" required />
-                <span ng-show="accept_challenge_form.initiator_email.$dirty && accept_challenge_form.initiator_email.$error.required" class="help-block">Initiator Email is required</span>
+              <div class="form-group" >
+                <input READONLY type="text" name="challenge_type" id="challenge_type" class="form-control centered" ng-model="accept_challenge_form.proposal.type" required />
+                <span ng-show="accept_challenge_form.initiator_email.$dirty && accept_challenge_form.initiator_email.$error.required" class="help-block">proposal is required</span>
+              </div>
+              <div class="form-group">
+                <input READONLY type="text" name="challenge_days" id="challenge_days" class="form-control centered" ng-model="accept_challenge_form.proposal.days" required />
+                <span ng-show="accept_challenge_form.initiator_email.$dirty && accept_challenge_form.initiator_email.$error.required" class="help-block">proposal is required</span>
+              </div>
+              <div class="form-group">
+                <input READONLY type="text" name="challenge_amount" id="challenge_amount" class="form-control centered" ng-model="accept_challenge_form.proposal.amount" required />
+                <span ng-show="accept_challenge_form.initiator_email.$dirty && accept_challenge_form.initiator_email.$error.required" class="help-block">proposal is required</span>
               </div>
 
               <br><br>

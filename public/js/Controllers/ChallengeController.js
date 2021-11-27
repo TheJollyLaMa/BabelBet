@@ -109,7 +109,11 @@ a charity package targeted at dependencies and parent softwares or emergency inn
           [$routeParams.email_to_challenge, $scope.account, $routeParams.duo_username_to_challenge],
           [$routeParams.email, $routeParams.eth_account, $routeParams.duo_username]
         ],
-        'proposal': [$routeParams.proposal_type,$routeParams.proposal_days,$routeParams.proposal_amount]
+        'proposal': {
+          'type': $routeParams.proposal_type,
+          'days': $routeParams.proposal_days,
+          'amount': $routeParams.proposal_amount
+        }
       }
       // console.log($scope.accept_challenge_form);
     }

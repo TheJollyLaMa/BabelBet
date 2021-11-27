@@ -5,15 +5,16 @@ var nodemailer = require('nodemailer');
 const Web3 = require('web3');
 const CT_json = require('../abis/ChallengeToken.json');
 const CT_X_json = require('../abis/CT_X.json');
+
 // console.log(CT_json);
 // console.log(CT_X_json);
-//
+
 let web3 = new Web3('ws://localhost:7545');
 var account = web3.eth.getAccounts().then((res) => {console.log("Web3 Account 1: ",res[0]);return res[0];})
 
 /* Agree to terms and send funds to Escrow */
 router.post('/', async function(req,res,next) {
-  const CT_Contract = web3.eth.net.getId().then(function(net_id){
+  const CT_Contract = await web3.eth.net.getId().then(function(net_id){
     console.log(net_id);
      if(CT_json.networks[net_id]) {
        const CT_ContractAddress = CT_json.networks[net_id].address;
@@ -23,39 +24,42 @@ router.post('/', async function(req,res,next) {
   });
   var blockNum = await web3.eth.getBlockNumber(function (error, result) {console.log("Block Number at the time the Challenge was accepted: ", result)});
   var today = new Date();
+  today = today.toLocaleDateString("en-US")
   console.log(today);
+  // console.log(req.body.playerList);
+  // console.log(req.body.playerList[0][1]);
+  // console.log(req.body.playerList[1]);
   var challenge_details = {
-      playerlist: [],
-      // function () {
-      //                  var p_list = []
-      //                  // for(var i=0; i <= req.body.playerList.length; i++){
-      //                  //   p_list.push(req.body.playerList[i][1]);
-      //                  // }
-      //                  for (player in req.body.playerList){
-      //                    console.log(player);
-      //                    p_list.push(player[1]);
-      //                  }
-      //                  return p_list;
-      //             },
-      name: req.body.playerList[0][2] + today,
+      playerlist:[],
+      name: req.body.playerList[0][2] + " : " + today,
       num_to_issue: parseInt(req.body.playerList.length),
-      type: req.body.proposal_type,
-      days: parseInt(req.body.proposal_days),
-      amount: parseInt(req.body.proposal_amount)
+      type: req.body.proposal.type,
+      days: parseInt(req.body.proposal.days),
+      amount: parseInt(req.body.proposal.amount)
   }
-  for (player in req.body.playerList){
-       console.log(player[1]);
-       challenge_details.playerlist.push(player[1]);
-  }
+  console.log(req.body.playerList);
+  req.body.playerList.forEach((player) => {challenge_details.playerlist.push(player[1]);});
+
   // mint token
-  console.log(challenge_details.playerlist);
-  // console.log("test: ", CT_Contract);
+  console.log(challenge_details);
   // const challenges = await CT_Contract.methods.getChallenges().call().then((res)=>{return res});
 
-  var challengeID = await CT_Contract.methods.tokenGenesis().call().then((res) => {
-    console.log(res);  // send back an ID
-    return res.id;
-  });
+// 26NOV2021 - solved a bug that had to do with the CT_Contract variable not being filled at this point due to a missing await statement on the initial contract assignment up above.
+// *** If you know the contract exists, you know the method is there, check your local scope & timing to make sure all the abi calls are called and returned on time
+//  or else it will appear as though the function exists when you print the abi to screen, and it just will not be able to be called because the variable isnt filled at the time it is being used.
+// an error will also tell you the function does not exist which you will know to be false and left scratching your head.
+// ** Check your SYNC/ASYNC order pendejo!
+
+  // create challenge token and return ID
+  var challengeID = await CT_Contract.methods.tokenGenesis(
+    challenge_details.playerlist,
+      challenge_details.name,
+        challenge_details.num_to_issue,
+          today,
+            challenge_details.type,
+              challenge_details.days,
+                challenge_details.amount)
+  .call().then((res) => {return res;});
   console.log(challengeID);
 
 

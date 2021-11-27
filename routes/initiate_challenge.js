@@ -58,9 +58,9 @@ router.post('/', function(req, res, next) {
     var subject = "On Guard, " + challenge_details.duo_username_to_challenge + "! " + challenge_details.duo_username + " challenges you to a " + challenge_details.proposal.type + " challenge on Babel Bet!";
     var html = "<p><h3>" + challenge_details.duo_username + "</h3> challenges you to a " + challenge_details.proposal.type + " on DuoLingo!</p>";
         html += "<p>" + challenge_details.duo_username + " thinks they can keep a streak for <h3>" + challenge_details.proposal.days + "</h3> days!</p>"
-        html += "Do you believe you can keep a longer streak than them?</p>";
-        html += "<p>They are so sure they are more dedicated than you, they staked <h3>" + challenge_details.proposal.amount + " matic</h3> on it!</p>";
-        html += "<p>If you think you can outlast their streak, see thier " + challenge_details.proposal.amount + " matic and prove it!</p><br>";
+        html += "Do you believe you can keep up with them?</p>";
+        html += "<p>They are so dedicated, they staked <h3>" + challenge_details.proposal.amount + " matic</h3> on it!</p>";
+        html += "<p>If you think you can outlast their streak, see thier " + challenge_details.proposal.amount + " matic and put yo matic where yo mouth is!</p><br>";
         html += "<p><a href='http://localhost:8888/public/#!/Accept/";
         html += challenge_details.email + "/";
         html += challenge_details.email_to_challenge + "/" + challenge_details.eth_account + "/";
