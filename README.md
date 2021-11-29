@@ -40,7 +40,7 @@ Everytime a player drops out, a few dimes go to the payout made to all those who
 Choose your streak choose your stake.
 
 ### Use Case Diagram
-![Use Case Diagram](https://github/TheJollyLaMa/BabelBet/Use_Case_Diagram.png)
+![Use Case Diagram](https://github.com/TheJollyLaMa/BabelBet/blob/41b6918efa809c1b135d583881f30ae4071735d3/Use_Case_Diagram.png)
 
 
 #### ToDo's
