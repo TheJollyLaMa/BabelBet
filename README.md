@@ -39,8 +39,8 @@ If it is, the staked amount stays staked.  If it's not, the player forfeits thei
 Everytime a player drops out, a few dimes go to the payout made to all those who finish the streak.
 Choose your streak choose your stake.
 
-
-
+### Use Case Diagram
+![Use Case Diagram](http://github/TheJollyLaMa/BabelBet/BabelBet_UseCase_UML_Diagram.pdf)
 
 #### ToDo's
 

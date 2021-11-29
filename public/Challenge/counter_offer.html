@@ -10,50 +10,50 @@
 
               <div><h4>Email Info</h4></div>
               <div class="form-group">
-                  <label for="email">Your Email :</label>
+                  <label for="email1">Your Email :</label>
                   <i class="fa fa-key"></i>
-                  <input READONLY type="email" name="email" id="email" class="form-control centered" ng-model="counter_offer_form.email" required />
-                  <span ng-show="counter_offer_form.email.$dirty && counter_offer_form.email.$error.required" class="help-block">Initiator Email is required</span>
+                  <input READONLY type="email" name="email1" id="email1" class="form-control centered" ng-model="counter_offer_form.email1" required />
+                  <span ng-show="counter_offer_form.email1.$dirty && counter_offer_form.email1.$error.required" class="help-block">Initiator Email is required</span>
               </div>
               <div class="form-group">
-                  <label for="email_password">Password:</label>
+                  <label for="email1_password">Password:</label>
                   <i class="fa fa-lock"></i>
-                  <input type="password" name="email_password" id="email_password" class="form-control" ng-model="counter_offer_form.email_password" required />
-                  <span ng-show="counter_offer_form.email_password.$dirty && counter_offer_form.email_password.$error.required" class="help-block">Initiator Email Password is required</span>
+                  <input type="password" name="email1_password" id="email1_password" class="form-control" ng-model="counter_offer_form.email1_password" required />
+                  <span ng-show="counter_offer_form.email1_password.$dirty && counter_offer_form.email1_password.$error.required" class="help-block">Initiator Email Password is required</span>
               </div>
               <div class="form-group">
-                  <label for="email_to_challenge">Email to Challenge :</label>
+                  <label for="email2">Email to Challenge :</label>
                   <i class="fa fa-key"></i>
-                  <input READONLY type="email" name="email_to_challenge" id="email_to_challenge" class="form-control centered" ng-model="counter_offer_form.email_to_challenge" required />
-                  <span ng-show="counter_offer_form.email_to_challenge.$dirty && counter_offer_form.email_to_challenge.$error.required" class="help-block">Duolingo Username is required</span>
+                  <input READONLY type="email" name="email2" id="email2" class="form-control centered" ng-model="counter_offer_form.email2" required />
+                  <span ng-show="counter_offer_form.email2.$dirty && counter_offer_form.email2.$error.required" class="help-block">Email to Challenge is required</span>
               </div>
               <br><hr><br>
               <div><h4>Eth Account</h4></div>
               <div class="form-group">
-                  <label for="eth_account">Your Eth Account :</label>
+                  <label for="eth_account1">Your Eth Account :</label>
                   <i class="fa fa-key"></i>
-                  <input READONLY type="text" name="eth_account" id="eth_account" class="form-control centered" ng-model="counter_offer_form.eth_account" required />
-                  <span ng-show="counter_offer_form.eth_account.$dirty && counter_offer_form.eth_account.$error.required" class="help-block">Your Eth account is required</span>
+                  <input READONLY type="text" name="eth_account1" id="eth_account1" class="form-control centered" ng-model="counter_offer_form.eth_account1" required />
+                  <span ng-show="counter_offer_form.eth_account1.$dirty && counter_offer_form.eth_account1.$error.required" class="help-block">Your Eth account is required</span>
               </div>
               <br><hr><br>
               <div><h4>Your Duolingo Info</h4></div>
               <div class="form-group">
-                  <label for="duo_username">Duo Username :</label>
+                  <label for="duo1_username">Duo Username :</label>
                   <i class="fa fa-key"></i>
-                  <input READONLY type="text" name="duo_username" id="duo_username" class="form-control centered" ng-model="counter_offer_form.duo_username" required />
-                  <span ng-show="counter_offer_form.duo_username.$dirty && counter_offer_form.duo_username.$error.required" class="help-block">Duolingo Username is required</span>
+                  <input READONLY type="text" name="duo1_username" id="duo1_username" class="form-control centered" ng-model="counter_offer_form.duo1_username" required />
+                  <span ng-show="counter_offer_form.duo1_username.$dirty && counter_offer_form.duo1_username.$error.required" class="help-block">Duolingo Username1 is required</span>
               </div>
               <div class="form-group">
                   <label for="duo_password">Duo Password:</label>
                   <i class="fa fa-lock"></i>
-                  <input type="password" name="duo_password" id="duo_password" class="form-control" ng-model="counter_offer_form.duo_password" required />
-                  <span ng-show="counter_offer_form.duo_password.$dirty && counter_offer_form.duo_password.$error.required" class="help-block">Duo Password is required</span>
+                  <input type="password" name="duo1_password" id="duo_password" class="form-control" ng-model="counter_offer_form.duo1_password" required />
+                  <span ng-show="counter_offer_form.duo1_password.$dirty && counter_offer_form.duo1_password.$error.required" class="help-block">Duo1 Password is required</span>
               </div>
               <div class="form-group">
-                  <label for="duo_username_to_challenge">Duo Username to Challenge:</label>
+                  <label for="duo2_username">Duo Username to Challenge:</label>
                   <i class="fa fa-key"></i>
-                  <input type="text" name="duo_username_to_challenge" id="duo_username_to_challenge" class="form-control centered" ng-model="counter_offer_form.duo_username_to_challenge" required />
-                  <span ng-show="counter_offer_form.duo_username_to_challenge.$dirty && counter_offer_form.duo_username_to_challenge.$error.required" class="help-block">Their Duolingo Username is required</span>
+                  <input type="text" name="duo2_username" id="duo2_username" class="form-control centered" ng-model="counter_offer_form.duo2_username" required />
+                  <span ng-show="counter_offer_form.duo2_username.$dirty && counter_offer_form.duo2_username.$error.required" class="help-block">Their Duolingo Username is required</span>
               </div>
               <br><hr><br>
               <!--
@@ -86,12 +86,12 @@
                   <button
                     type="submit"
                     ng-disabled="form.$invalid || dataLoading ||
-                        !counter_offer_form.email ||
-                         !counter_offer_form.email_password ||
-                          !counter_offer_form.email_to_challenge ||
-                           !counter_offer_form.eth_account ||
-                            !counter_offer_form.duo_username ||
-                             !counter_offer_form.duo_password ||
+                        !counter_offer_form.email1 ||
+                         !counter_offer_form.email1_password ||
+                          !counter_offer_form.email2 ||
+                           !counter_offer_form.eth_account1 ||
+                            !counter_offer_form.duo1_username ||
+                             !counter_offer_form.duo1_password ||
                               !counter_offer_form.proposal.type ||
                                !counter_offer_form.proposal.days ||
                                 !counter_offer_form.proposal.amount"

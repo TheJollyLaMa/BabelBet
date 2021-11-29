@@ -16,6 +16,7 @@
   "dependencies": {
     "@openzeppelin/contracts": "^4.3.2",
     "@truffle/hdwallet-provider": "^1.6.0",
+    "axios": "^0.24.0",
     "bignumber.js": "^9.0.1",
     "crypto-js": "^4.1.1",
     "dotenv": "^10.0.0",

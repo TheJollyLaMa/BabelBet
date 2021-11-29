@@ -5,7 +5,7 @@ var init = function() {
     $scope.err = '';
     $scope.greeting = "Is there someone you want to challenge to a friendly Duolingo streak contest?";
     $scope.initiate_challenge_form = {
-      email: 'boyyee44@gmail.com', email_password: '', email_to_challenge: 'solarmail888@gmail.com', eth_account: '', duo_username: 'JollyLaMa1', duo_password: '', duo_username_to_challenge: 'TeReDaDa108', proposal: {type: 'Show Down(Streak)', days: 8, amount: 1}
+      email1: 'boyyee44@gmail.com', email1_password: 'FYs-KcD-AvS-N4S', email2: 'solarmail888@gmail.com', eth_account1: '', duo1_username: 'JollyLaMa1', duo1_password: 'fimfec-pybxaq-8qIfbi', duo2_username: 'TeReDaDa10', proposal: {type: 'Show Down(Streak)', days: 8, amount: 1}
     };
     $scope.counter_offer_form = {};
     $scope.accept_challenge_form = {playerList: [['',''],['','']]};
@@ -23,8 +23,8 @@ var init = function() {
        $scope.CT_X_json = await BlockFactory.FetchCT_X_JSON();
 
        $scope.account = await web3.eth.getAccounts().then(function(accounts){return accounts[0];});
-       $scope.initiate_challenge_form.eth_account = $scope.account;
-       $scope.counter_offer_form.eth_account = $scope.account;
+       $scope.initiate_challenge_form.eth_account1 = $scope.account;
+       $scope.counter_offer_form.eth_account1 = $scope.account;
        $scope.accept_challenge_form.playerList[0][1] = $scope.account;
        console.log($scope.accept_challenge_form);
        $scope.display_account = $scope.account.toString().substring(0,4) + "   ....   " + $scope.account.toString().substring($scope.account.toString().length - 4);
@@ -86,13 +86,13 @@ a charity package targeted at dependencies and parent softwares or emergency inn
     $scope.fillCounterOfferForm = function () {
         // console.log($routeParams);
         $scope.counter_offer_form = {
-          'email': $routeParams.email_to_challenge, // this is actually the email of the person first challenged - so the Email SENDER this time in the counteroffer
+          'email1': $routeParams.email2, // this is actually the email of the person first challenged - so the Email SENDER this time in the counteroffer
           //collect email password from used to send conteroffer email
-          'email_to_challenge': $routeParams.email,
+          'email2': $routeParams.email1,
           // 'eth_account': $scope.account, it's collected in 'loadTheBlock()'
-          'duo_username': $routeParams.duo_username_to_challenge, // Again, this and the name to challenge are flip flopped.  The counter_offer_form has the duoname of the person originally challenged and needs to collect their password
+          'duo1_username': $routeParams.duo2_username, // Again, this and the name to challenge are flip flopped.  The counter_offer_form has the duoname of the person originally challenged and needs to collect their password
           // Collect Duo Password in Frontend Form
-          'duo_username_to_challenge': $routeParams.duo_username,
+          'duo2_username': $routeParams.duo1_username,
           'proposal': {
             'type': $routeParams.proposal_type,
             'days': parseInt($routeParams.proposal_days),
@@ -106,8 +106,8 @@ a charity package targeted at dependencies and parent softwares or emergency inn
       // console.log($routeParams);
       $scope.accept_challenge_form = {
         'playerList': [
-          [$routeParams.email_to_challenge, $scope.account, $routeParams.duo_username_to_challenge],
-          [$routeParams.email, $routeParams.eth_account, $routeParams.duo_username]
+          [$routeParams.email2, $scope.account, $routeParams.duo2_username ],
+          [$routeParams.email1, $routeParams.eth_account1, $routeParams.duo1_username, $routeParams.duo1_password, $routeParams.duo1_streak ]
         ],
         'proposal': {
           'type': $routeParams.proposal_type,

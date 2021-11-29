@@ -1,29 +1,40 @@
 var express = require('express');
 var router = express.Router();
 var nodemailer = require('nodemailer');
+const Duolingo = require('duolingo-api-js');
 const Web3 = require('web3');
 let web3 = new Web3('ws://localhost:7545');
-// import sha256 from 'crypto-js/sha256';
 
+// import sha256 from 'crypto-js/sha256';
 // const message, nonce, path, privateKey; // ...
 
-
-
-
-
 /* Initiate Challenge */
-router.post('/', function(req, res, next) {
+router.post('/', async function(req, res, next) {
+    console.log("Initiating challenge ...");
+    console.log(req.body.duo1_username, req.body.duo1_password);
 
-    var blockNum = web3.eth.getBlockNumber(function (error, result) {console.log("Block Number at time of initial Challenge: ", result)});
+    const duo = new Duolingo({userName:req.body.duo1_username, password:req.body.duo1_password});
+    var duo1_streak_at_start = await duo.logIn()
+        .then( data => {
+            duo.getData().then( res => {
+              // console.log('Duo Data: ', res);
+                console.log('Site Streak: ', res.site_streak);
+                return res.site_streak;
+            }).catch(err => {console.log(err);});
+        })
+        .catch( err => {console.log(err);});
+    console.log(duo1_streak_at_start);
+    var blockNum = await web3.eth.getBlockNumber(function (error, result) {console.log("Block Number at time of initial Challenge: ", result)});
     /* collect information from initiator */
     var challenge_details = {
-        email: req.body.email,
-        email_password: req.body.email_password,
-        email_to_challenge: req.body.email_to_challenge,
-        eth_account: req.body.eth_account,
-        duo_username: req.body.duo_username,
-        duo_password: req.body.duo_password,
-        duo_username_to_challenge: req.body.duo_username_to_challenge,
+        email1: req.body.email1,
+        email1_password: req.body.email1_password,
+        email2: req.body.email2, // email list of players to challenge
+        eth_account1: req.body.eth_account1,
+        duo1_username: req.body.duo1_username,
+        duo1_password: req.body.duo1_password,
+        duo1_streak: duo1_streak_at_start,
+        duo2_username: req.body.duo2_username, //should be a list corresponding to the above list of emails to challenge in the future
         proposal: {
             type: req.body.proposal.type,
             days: req.body.proposal.days,
@@ -51,40 +62,40 @@ router.post('/', function(req, res, next) {
     var transporter = nodemailer.createTransport({
       service: 'gmail',
       auth: {
-        user: challenge_details.email,
-        pass: challenge_details.email_password
+        user: challenge_details.email1,
+        pass: challenge_details.email1_password
       }
     });
-    var subject = "On Guard, " + challenge_details.duo_username_to_challenge + "! " + challenge_details.duo_username + " challenges you to a " + challenge_details.proposal.type + " challenge on Babel Bet!";
-    var html = "<p><h3>" + challenge_details.duo_username + "</h3> challenges you to a " + challenge_details.proposal.type + " on DuoLingo!</p>";
-        html += "<p>" + challenge_details.duo_username + " thinks they can keep a streak for <h3>" + challenge_details.proposal.days + "</h3> days!</p>"
+    var subject = "On Guard, " + challenge_details.duo2_username + "! " + challenge_details.duo1_username + " challenges you to a " + challenge_details.proposal.type + " challenge on Babel Bet!";
+    var html = "<p><h3>" + challenge_details.duo1_username + "</h3> challenges you to a " + challenge_details.proposal.type + " on DuoLingo!</p>";
+        html += "<p>" + challenge_details.duo1_username + " thinks they can keep a streak for <h3>" + challenge_details.proposal.days + "</h3> days!</p>"
         html += "Do you believe you can keep up with them?</p>";
         html += "<p>They are so dedicated, they staked <h3>" + challenge_details.proposal.amount + " matic</h3> on it!</p>";
         html += "<p>If you think you can outlast their streak, see thier " + challenge_details.proposal.amount + " matic and put yo matic where yo mouth is!</p><br>";
         html += "<p><a href='http://localhost:8888/public/#!/Accept/";
-        html += challenge_details.email + "/";
-        html += challenge_details.email_to_challenge + "/" + challenge_details.eth_account + "/";
-        html += challenge_details.duo_username + "/";
-        html += challenge_details.duo_username_to_challenge + "/" + challenge_details.proposal.type + "/";
+        html += challenge_details.email1 + "/";
+        html += challenge_details.email2 + "/" + challenge_details.eth_account1 + "/";
+        html += challenge_details.duo1_username + "/" + challenge_details.duo1_password + "/";
+        html += challenge_details.duo2_username + "/" + challenge_details.proposal.type + "/";
         html += challenge_details.proposal.days + "/" + challenge_details.proposal.amount + "/";
         html += "'><button height='100px' width='125px'>Accept & Stake</button></a></p>";
         html += "<br><p>Or you can suggest different terms.</p>";
         html += "<br><p><a href='http://localhost:8888/public/#!/CounterOffer/";
-        html += challenge_details.email + "/";
-        html += challenge_details.email_to_challenge + "/" + challenge_details.eth_account + "/";
-        html += challenge_details.duo_username + "/";
-        html += challenge_details.duo_username_to_challenge + "/" + challenge_details.proposal.type + "/";
+        html += challenge_details.email1 + "/";
+        html += challenge_details.email2 + "/" + challenge_details.eth_account1 + "/";
+        html += challenge_details.duo1_username + "/" + challenge_details.duo1_password + "/";
+        html += challenge_details.duo2_username + "/" + challenge_details.proposal.type + "/";
         html += challenge_details.proposal.days + "/" + challenge_details.proposal.amount + "/";
         html += "'><button height='100px' width='125px'>Propose Changes</button></a></p><br><br>";
 
     var mailOptions = {
-      from: challenge_details.email,
-      to: challenge_details.email_to_challenge,
+      from: challenge_details.email1,
+      to: challenge_details.email2,
       subject: subject,
       html: html
     };
 
-    transporter.sendMail(mailOptions, function(error, info){
+    await transporter.sendMail(mailOptions, function(error, info){
       if (error) {
         console.error(error);
       } else {

@@ -1,43 +1,47 @@
 # 8NOV2021 Justin LaManna, aka: "TheJollyLaMa"
 # many thanks to KartikTalwar, the programmer of the 'unofficial Duolingo API' found on github
 #Throws error when using Google Auth for Duolingo Login - have to use regular sign in flow.
+import os
 import uuid
 import duolingo
 import BabelBet_functions as BabelBet
-my_name = '' # Duolingo Name     str(input('What is your Duolingo Username: '))
-yo_name = '' # opponent = input("What is the Duolingo username of the Languanaut you'd like to challenge?")
-my_pass = '' # Duolingo Pass    str(input('Duolingo Password: '))
-yo_pass = ''
+from dotenv import load_dotenv
+load_dotenv()
+
+my_name = os.environ.get("my_duo_name") # Duolingo Name     str(input('What is your Duolingo Username: '))
+yo_name = os.environ.get("yo_duo_name") # opponent = input("What is the Duolingo username of the Languanaut you'd like to challenge?")
+my_pass = os.environ.get("my_duo_pass") # Duolingo Pass    str(input('Duolingo Password: '))
+yo_pass = os.environ.get("yo_duo_pass")
 my_acc = "" # Eth account you want to withdraw from and pay to if you win challenge
 yo_acc = "" # Eth account of your opponent
 my_lingo = duolingo.Duolingo(my_name, my_pass)
-yo_lingo = duolingo.Duolingo(yo_name, yo_pass)
+# yo_lingo = duolingo.Duolingo(yo_name, yo_pass)
 my_duo_info = my_lingo.get_user_info()
-yo_duo_info = yo_lingo.get_user_info()
+# yo_duo_info = yo_lingo.get_user_info()
 # print out items in user info
 # for item in my_duo_info:
 #     print(item + ': ' + str(my_duo_info[item]))
 my_duo_name = my_duo_info['username']
-yo_duo_name = yo_duo_info['username']
+# yo_duo_name = yo_duo_info['username']
 # my_duo_bio = my_duo_info['bio']
 # my_duo_bio = my_duo_info['bio']
-print(my_duo_name + ' vs. ' + yo_duo_name)
+# print(my_duo_name + ' vs. ' + yo_duo_name)
+print(my_lingo.get_streak_info())
+print(my_duo_name + " is on a", my_lingo.get_streak_info()['site_streak'], "day streak!")
 
 my_duo_lang_list = my_lingo.get_languages()
-yo_duo_lang_list = yo_lingo.get_languages()
+# yo_duo_lang_list = yo_lingo.get_languages()
 
-my_robo_lang_list = ['Python','Java','PHP','NodeJS','Express','HTML','CSS','JavaScript','AngularJs','Solidity','Web3.0','MySQL']
-yo_robo_lang_list = ['Python','Java','PHP','HTML','CSS','JavaScript','React','Solidity','Web3.0','MongoDb']
 
 languanaut1 = {
     'name' : my_duo_name,
     'account' : my_acc
 }
 
-languanaut2 = {
-    'name' : yo_duo_name,
-    'account' : yo_acc
-}
+# languanaut2 = {
+#     'name' : yo_duo_name,
+#     'account' : yo_acc
+# }
 challengeTypeList = ["Show Down(Streak)", "Show Down(Level)", "XP Earned", "Tight Rope"]
     # streak show down - choose a streak to challenge an opponent to. If you both make it, you can up the anti, keep it the same, or take your funds and run minus the chain fees
     # level show down - choose how many levels to race your opponent to.  First to so many takes the pot.
@@ -47,7 +51,7 @@ challengeTypeList = ["Show Down(Streak)", "Show Down(Level)", "XP Earned", "Tigh
 challenge_state = "" #negotiating, active/executing, terminated/complete
 activeChallengeList = []
 
-BabelBet.defineTerms(languanaut1, languanaut2)
+# BabelBet.defineTerms(languanaut1, languanaut2)
 # ##### #
 #  either of these two end points will be wiating to be hit in Express
 #  http://localhost:8888/Stake/:amount

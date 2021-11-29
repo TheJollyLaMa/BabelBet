@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var nodemailer = require('nodemailer');
-
+const Duolingo = require('duolingo-api-js');
 const Web3 = require('web3');
 const CT_json = require('../abis/ChallengeToken.json');
 const CT_X_json = require('../abis/CT_X.json');
@@ -29,19 +29,37 @@ router.post('/', async function(req,res,next) {
   // console.log(req.body.playerList);
   // console.log(req.body.playerList[0][1]);
   // console.log(req.body.playerList[1]);
-  var challenge_details = {
-      playerlist:[],
-      name: req.body.playerList[0][2] + " : " + today,
-      num_to_issue: parseInt(req.body.playerList.length),
-      type: req.body.proposal.type,
-      days: parseInt(req.body.proposal.days),
-      amount: parseInt(req.body.proposal.amount)
-  }
-  console.log(req.body.playerList);
-  req.body.playerList.forEach((player) => {challenge_details.playerlist.push(player[1]);});
-
+  // var challenge_details = {
+  //     playerlist: {},
+  //     name: req.body.playerList[0][2] + " : " + today,
+  //     num_to_issue: parseInt(req.body.playerList.length),
+  //     type: req.body.challenge_details.proposal.type,
+  //     days: parseInt(req.body.challenge_details.proposal.days),
+  //     amount: parseInt(req.body.challenge_details.proposal.amount)
+  // }
+  console.log(req.body);
+  // req.body.playerList.forEach((player) => {challenge_details.playerlist.emails.append(player[0]);});
+  // req.body.challenge_details.playerList.forEach((player) => {challenge_details.playerlist.addrs.append(player[1]);});
+  // req.body.playerList.forEach((player) => {challenge_details.playerlist.duonames.append(player[2]);});
+/*
+    iterate through player list and get duo streak info for each player
+    // get duo info so the players current streak count will become the challenge streak count '0'
+    // for that player. this way the challenge counts from where the player was in their streak when
+    // they joined the challenge
+    var duo = DuoLingo.DuoLingo(req.body.duo_username,req.body.duo_password);
+    var duo1_streak_at_start = duo.logIn()
+      .then( data => {
+          // console.log('data', data);
+          duo.getData().then( res => {
+              console.log('Site Streak: ', res.site_streak);
+              return res.site_streak;
+          }).catch();
+      })
+      .catch();
+    console.log(duo1_streak_at_start);
+ */
   // mint token
-  console.log(challenge_details);
+  // console.log(challenge_details);
   // const challenges = await CT_Contract.methods.getChallenges().call().then((res)=>{return res});
 
 // 26NOV2021 - solved a bug that had to do with the CT_Contract variable not being filled at this point due to a missing await statement on the initial contract assignment up above.
@@ -50,9 +68,10 @@ router.post('/', async function(req,res,next) {
 // an error will also tell you the function does not exist which you will know to be false and left scratching your head.
 // ** Check your SYNC/ASYNC order pendejo!
 
+
   // create challenge token and return ID
   var challengeID = await CT_Contract.methods.tokenGenesis(
-    challenge_details.playerlist,
+    challenge_details.playerlist.addrs,
       challenge_details.name,
         challenge_details.num_to_issue,
           today,
@@ -83,6 +102,7 @@ router.post('/', async function(req,res,next) {
   //
   // transporter1.sendMail(mailOptions1, function(error, info){if (error) {console.log(error);} else {console.log('Email sent: ' + info.response);}});
   // transporter2.sendMail(mailOptions2, function(error, info){if (error) {console.log(error);} else {console.log('Email sent: ' + info.response);}});
+
 
   // check both party's streak stats everyday while the streak goal still isnt met
   // if (goal_not_met) && (player1streak) && (player2streak) {
