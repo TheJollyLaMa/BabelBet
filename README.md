@@ -1,15 +1,15 @@
-# Duolingo Peer Challenge Dapp with Web3 in Python and Node
-
+# Duolingo Peer Challenge Dapp with Web3 and Node on Polygon/Matic
+Inspired by:
 Unofficial Duolingo API Written in Python by KartikTalwar.
 https://github.com/KartikTalwar/Duolingo#get-calendar
-
+Using:
 Unofficial Duolingo API for browser and NodeJs by acSpock
 https://github.com/acSpock/duolingo-js
 
 
 
-### BabelBet by TheJollyLaMa
-Babel Bet is a Decentralized Application (Dapp) leveraging Web3 and a smart contract in solidity to allow students of the Duolingo app to challenge each other to friendly wagers that make language training exciting by raising the stakes and involving friends in your journey!
+## BabelBet by TheJollyLaMa
+BabelBet is a Decentralized Application (Dapp) leveraging Web3 and a smart contract in solidity to allow students of the Duolingo app to challenge each other to friendly wagers that make language training exciting by raising the stakes and involving friends in your journey!
 
 ### Installation
 ```sh
@@ -45,8 +45,8 @@ Choose your streak choose your stake.
 
 #### ToDo's
 
-finish up solidity contracts
-Make a better dashboard
+finish up solidity contracts involving payouts
+Make a better dashboard with funds sweep options
 
 
 unit tests
