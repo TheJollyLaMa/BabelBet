@@ -80,7 +80,10 @@ router.post('/', async function(req,res,next) {
                 challenge_details.amount)
   .call().then((res) => {return res;});
   console.log(challengeID);
-
+  var Player_Email_Addr_List = [req.body.email,req.body.email_to_challenge]
+  // add players email to the Token_Player_Email_Map - thats token id, players eth wallet address, and player email address
+  await CT_contract.methods.update_Token_Player_Email_Map(challengeID, challenge_details.playerlist.addrs, Player_Email_Addr_List);
+  await CT_contract.methods.update_Token_Player_Duo_Map(challengeID, challenge_details.playerlist.addrs, Player_Duo_Info_List);
 
   // send return email to other party confirming challenge terms and agreement have been set on contracts
   // send email to self acting as receipt for transaction

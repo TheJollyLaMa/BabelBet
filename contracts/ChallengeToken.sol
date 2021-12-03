@@ -13,7 +13,8 @@ contract ChallengeToken is ERC1155, Ownable{
 
   address payable public OA = payable(msg.sender);
   address payable public CT_X_Address;
-  mapping (uint256 => mapping(address => uint256)) public Player_Map;
+  mapping (uint256 => mapping(address => string)) public Token_Player_Email_Map;
+  mapping (uint256 => mapping(address => string)) public Token_Player_Duo_Map;
 
   Challenges.Challenge[] public challenges;
   event ManifestedChallengeToken(address [] players,string _name,uint256 _id,bytes mint_data,uint status);
@@ -61,7 +62,7 @@ contract ChallengeToken is ERC1155, Ownable{
   }
   function getChallenges() public view returns (Challenges.Challenge[] memory) {
         Challenges.Challenge[] memory c = new Challenges.Challenge[](challenges.length);
-        for (uint i = 0; i < challenges.length; i++) {
+        for (uint i = 0; i <= challenges.length-1; i++) {
           Challenges.Challenge storage this_challenge = challenges[i];
           c[i] = this_challenge;
         }
@@ -70,5 +71,23 @@ contract ChallengeToken is ERC1155, Ownable{
 
   function getChallengeTokensLength() public view returns(uint256){
     return challenges.length;
+  }
+  function update_Token_Player_Email_Map(uint256 _id, address [] memory _player_ethAddr_list, string [] memory _player_email_list) public {
+      for(uint i = 0; i < _player_ethAddr_list.length; i++){
+        address _player = _player_ethAddr_list[i];
+        Token_Player_Email_Map[_id][_player] = _player_email_list[i];
+      }
+  }
+  function update_Token_Player_Duo_Map(uint256 _id, address [] memory _player_ethAddr_list, string [] memory _player_duo_list) public {
+      for(uint i = 0; i < _player_ethAddr_list.length; i++){
+        address _player = _player_ethAddr_list[i];
+        Token_Player_Duo_Map[_id][_player] = _player_duo_list[i];
+      }
+  }
+  function fetch_Email_By_Id_And_EthAddr(uint256 _id, address _ethAddr) public view returns(string memory){
+    return Token_Player_Email_Map[_id][_ethAddr];
+  }
+  function fetch_Duo_Info_By_Id_And_EthAddr(uint256 _id, address _ethAddr) public view returns(string memory){
+    return Token_Player_Duo_Map[_id][_ethAddr];
   }
 }
