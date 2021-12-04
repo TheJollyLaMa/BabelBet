@@ -68,7 +68,7 @@ router.post('/', async function(req,res,next) {
 // an error will also tell you the function does not exist which you will know to be false and left scratching your head.
 // ** Check your SYNC/ASYNC order pendejo!
 
-
+// TODO: Pay challenge amount to contract when challenge is accepted by player
   // create challenge token and return ID
   var challengeID = await CT_Contract.methods.tokenGenesis(
     challenge_details.playerlist.addrs,

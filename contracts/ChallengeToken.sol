@@ -23,6 +23,7 @@ contract ChallengeToken is ERC1155, Ownable{
     ERC1155("http://localhost:8888/public/#!/ChallengeTokenChest/{id}.json")
     Ownable()
     {}
+    // TODO: Make token genesis payable
   function tokenGenesis (
     address [] memory _player_list,
      string memory _name,

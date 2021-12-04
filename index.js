@@ -46,24 +46,29 @@ cron.schedule('*/30 * * * * *', async () => {
   const CT_X_json = require('./abis/CT_X.json');
   /* Grab Web3 */
   let web3 = new Web3('ws://localhost:7545');
-  console.log("\n******************************************************************************************************************************\n");
-  const blockNum = await web3.eth.getBlockNumber(function (error, result) {console.log("Block Number at time of scheduled Cron Job: ", result)});
-  const account = await web3.eth.getAccounts().then((res) => {console.log("Web3 Account 1:\n", res[0]);return res[0];})
-  const CT_Contract = await web3.eth.net.getId().then(function(net_id){
-    console.log("Current Net Id:", net_id);
+  console.log("\n\n||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||");
+      console.log("||||||||||||||||||||||||||||||||||||||||||||||||   BabelBet Watcher Function   |||||||||||||||||||||||||||||||||||||||||||||||||||");
+      console.log("||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||\n");
+  console.log("\t**** Block Info ****");
+  var blockNum = await web3.eth.getBlockNumber((result) => {return result;});
+  console.log("\tBlock Number at time of scheduled Cron Job: ", blockNum)
+  var account = await web3.eth.getAccounts().then((res) => {return res[0];});
+  console.log("\tWeb3 Account 1: ", account);
+  var CT_Contract = await web3.eth.net.getId().then(function(net_id){
+    console.log("\tCurrent Net Id: ", net_id);
      if(CT_json.networks[net_id]) {
-       const CT_ContractAddress = CT_json.networks[net_id].address;
+       var CT_ContractAddress = CT_json.networks[net_id].address;
        var c = new web3.eth.Contract(CT_json.abi, CT_ContractAddress);
       return c;}//else{return $window.alert("Challenge Token Smart contract not connected to selected network.")}
   });
   /* get challenges */
-  const challenges = await CT_Contract.methods.getChallenges().call().then((res)=>{return res;});
-  console.log("Total Challenges Minted: " + challenges.length);
-  console.log("\n******************************************************************************************************************************\n");
+  var challenges = await CT_Contract.methods.getChallenges().call().then((res)=>{return res;});
+  console.log("\tTotal Challenges Minted: " + challenges.length);
+  console.log("\n||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||\n");
   /*  For Each Challenge ...   */
   // console.log(challenges[0]);
   // console.log(challenges[1]);
-  for(var i=0; i <= challenges.length-1; i++){
+  for(var i=2; i <= challenges.length-1; i++){
       // console.log("i : ",i, ", challenges length : ", challenges.length);
       var players = challenges[i][0];
       var name = challenges[i][1];
@@ -76,85 +81,112 @@ cron.schedule('*/30 * * * * *', async () => {
       var challenge_type = mint_data[1];
       var streak_goal = mint_data[2];
       var staked_amount = mint_data[3];
-      var end_date = mint_date + streak_goal;
-      // end_date = 11/12/2021
+
       var today = new Date();
-      const time_delta = Math.abs(mint_date - today);
-      const day_delta = Math.ceil(time_delta / (1000 * 60 * 60 * 24));
-      var days_into_challenge = day_delta;// - mint_date;
-      var this_players_streak = 0;
-      console.log("\n******************************************************************************************************************************\n");
-      console.log("\nChallenge ",i,":\n");
+      var end_date = new Date(mint_date);
+      end_date.setDate(streak_goal);
+
+      const time_delta1 = Math.abs(mint_date - today);
+      var days_into_challenge = Math.ceil(time_delta1 / (1000 * 60 * 60 * 24));
+
+      /*-- Challenge Token Report --*/
+      console.log("\n\t************************************************   Challenge ",i,"   **************************************************\n");
       console.log("\tPlayers: " + players);
       console.log("\tName: " + name);
       console.log("\tId: " + id);
-      console.log("\tDetails: \n" + "\t\tmint date: " + mint_date + "\n\t\tchallenge type: " + challenge_type + "\n\t\tstreak days: " + streak_goal + "\n\t\tstaked amount: " + staked_amount);
+      console.log("\tDetails: \n" + "\t\tmint date: " + mint_date + "\n\t\tchallenge type: " + challenge_type + "\n\t\tstreak goal: " + streak_goal + "\n\t\tstaked amount: " + staked_amount);
       console.log("\tStatus: " + status);
-      console.log("\tend date: " + end_date);
+      console.log("\tEnd Date: " + end_date);
       console.log("\n");
 
+
+      /*-- For Each Player in the Challenge --*/
       var payoutList = [];
+      var this_players_streak = 0;
       for(var j = 0; j <= players.length-1; j++){
           // console.log("\n",j, " : ", players.length);
+          /*--- Get Duo Info ---*/
           var duo_info = await CT_Contract.methods.Token_Player_Duo_Map(id,players[j]).call().then(res => {return res;});
           var duo_name = duo_info.split("::")[0];
           var duo_pass = duo_info.split("::")[1];
           const duo = new Duolingo({userName:duo_name, password:duo_pass});
           // console.log(duo);
-          console.log("\n************Player",j,"***************");
-          console.log(duo_name);
           var streak = await duo.logIn().then( data => {return duo.getData().then( res => {return res.site_streak;}).catch();}).catch();
-          console.log("Mint Date: ",mint_date);
-          console.log("Today: ",today);
-          console.log("Days into Challenge: ",days_into_challenge);
-          console.log("Player Streak: ",streak);
-          console.log("\n*************************************\n");
-          // var email = await CT_Contract.methods.Token_Player_Email_Map(id,players[i]).call().then(res => {
-          // //   console.log("Token Player Email Map",res);return res;
-          // // })
-          // // console.log(email);
-          // // function to check each players progress and notify them if they fall behind and thus forfeit funds
-          if (streak < days_into_challenge){
-              console.log('Trigger forfeit funds email for :', duo_name );
-              // player automatically removed from payout list by numbers, but they are sent a loser email with notice of funds forfeiture
-          }
-          else{
-          //   // function to check if the challenge's end_date is today.  When the end_date comes, the players who have maintained the streak
-          //   // receive their one share of the final pot (forfeited funds plus interest earned in escrow)
-          //   if (today === end_date) {
-          //       if(streak === streak_goal){
-          //         console.log("\n\tToday is the end of the Challenge and you made it!");
-          //         console.log("\tYou're being added to the payout list, " + duo_name + "!\n" );
-          //         // add to payoutList
-          //         // payouts.push([player,email]);
-          //         // change token Status on execution contract
-          //         // emails sent to notify players of their challenge success, friend's success, and payout chart
-          //         // challenge completion with link to challenge page where players can view stats and past challeneges
-          //
-          //       }else{
-          //         console.log("\n\tToday is the end of the Challenge and you did not make it, " + duo_name);
-          //         console.log("\tEveryone who crossed the finish is enjoying a fat payout and a sharper tongue!");
-          //         console.log("\tThanks for participating and please come back when you're ready!\n");
-          //
-          //       }
-          //   }else{
-          //     // If streak has not ended and goal has not been met, nothing happens - duolingo students continue showing up for language training every day!
-          //     console.log("\n\t" + duo_name + "is still meeting the terms of the challenge ...");
-          //     console.log("\tThe challenge is still going ... \n");
-          //     return
-          //   }
-          }
-          console.log("\n******************************************************************************************************************************\n");
-      }
-      // calculate payout amount
-      // payout_amount = (1/payoutList.length)*(staked_amount);
-      // iterate through payout list
-          // send funds
+          /*--- Report Player Essentials ---*/
+          console.log("\n\t|||||||||||||||||||||||||||||||||||||");
+          console.log("\t|||||||||    Player",j,"    |||||||||||");
+            console.log("\t|||||||||||||||||||||||||||||||||||||\n");
 
-          // send email notifying of payout and challenge completion
+          console.log("\tDuoname: ",duo_name);
+          console.log("\tToken Player Email Map: ",email);
+          console.log("\tMint Date: ",mint_date);
+          console.log("\tToday: ",today);
+          console.log("\tDays into Challenge: ",days_into_challenge);
+          console.log("\tEnd Date: ",end_date.toLocaleDateString("en-US"));
+          console.log("\tPlayer Streak: ",streak);
+          var email = await CT_Contract.methods.Token_Player_Email_Map(id,players[j]).call().then(res => {return res;});
+          // function to check each players progress and notify them if they fall behind and thus forfeit funds
+          console.log("\n\tIs Player Streak: ",streak,"  <  Days into Challenge: ",days_into_challenge, "?");
+          if (streak < days_into_challenge){
+              console.log("\tYes!");
+              console.log('\tTrigger forfeit funds email for : ', duo_name);
+              // TODO: Send email to a player when they forfeit funds
+              // player automatically removed from payout list by numbers, but they are sent a loser email with notice of funds forfeiture
+          }else{
+            // function to check if the challenge's end_date is today.  When the end_date comes, the players who have maintained the streak
+            // receive their one share of the final pot (forfeited funds plus interest earned in escrow)
+            console.log("\tNo!\n");
+            console.log("\tToday: ",today.toLocaleDateString("en-US"));
+            console.log("\tEnd Date: ",end_date.toLocaleDateString("en-US"));
+            var t = Date.parse(today.toLocaleDateString("en-US")), e_d = Date.parse(end_date.toLocaleDateString("en-US"));
+            console.log("\t",t,e_d);
+            // t > e_d
+            if (1) {
+                console.log("\n\tStreak: ",streak);
+                console.log("\tStreak Goal: ", streak_goal);
+                if(streak >= streak_goal){
+                    console.log("\n\tToday is the end of the Challenge and you made it!");
+                    console.log("\tYou're being added to the payout list, " + duo_name + "!" );
+                    // add to payoutList
+                    payoutList.push([players[j],email]);
+                }else{
+                  //  TODO: Email to players who didnt make it, AGAIN, to let them know about the pot they missed out on
+                  console.log("\n\tToday is the end of the Challenge and you did not make it, " + duo_name);
+                  console.log("\tEveryone who crossed the finish is enjoying a fat payout and a sharper tongue!");
+                  console.log("\tThanks for participating and please come back when you're ready!");
+
+                }
+            }else{
+              // If streak has not ended and goal has not been met, nothing happens - duolingo students continue showing up for language training every day!
+              console.log("\n\t" + duo_name + " is still meeting the terms of the challenge ...");
+              console.log("\tThe challenge is still going ... ");
+            }
+          }
+      }
+      console.log(payoutList);
+      // calculate payout amount
+      var payout_amount = (1/payoutList.length)*(staked_amount);
+      console.log(payout_amount);
+      // iterate through payout list
+      for (var x = 0; i < payoutList.length; i++) {
+          // sort payout list
+          var player_eth_addr = payoutList[i][0];
+          var player_email_addr = payoutList[i][1];
+
+          // TODO: send payout_amount to list of Eth accounts that met the challenge
+
+          // TODO: change token Status on execution contract
+
+          // TODO: emails sent to notify players of their challenge success, friend's success, and payout chart
+              // challenge completed! - link to challenge page where players can view stats and past challeneges
+      }
+
+          console.log("\n\t|||||||||||||||||||||||||||||||||||||");
 
   };
-  console.log('\t ... running this task every thirty seconds with cron schedule ...');
+  console.log("\n|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||");
+    console.log('|||||||  TheJollyLaMa  ||||||||| ... running this task every thirty seconds with cron schedule ...  |||||||   License: MIT  |||||||');
+    console.log("|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||\n\n\n");
 });
 
 // catch 404 and forward to error handler
