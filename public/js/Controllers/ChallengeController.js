@@ -5,7 +5,7 @@ var init = function() {
     $scope.err = '';
     $scope.greeting = "Is there someone you want to challenge to a friendly Duolingo streak contest?";
     $scope.initiate_challenge_form = {
-      email1: 'boyyee44@gmail.com', email1_password: '', email2: 'solarmail888@gmail.com', eth_account1: '', duo1_username: 'JollyLaMa1', duo1_password: '', duo2_username: 'TeReDaDa10', proposal: {type: 'Show Down(Streak)', days: 8, amount: 1}
+      email1: '', email1_password: '', email2: '', eth_account1: '', duo1_username: '', duo1_password: '', duo2_username: '', proposal: {type: 'Show Down(Streak)', days: 8, amount: 1}
     };
     $scope.counter_offer_form = {};
     $scope.accept_challenge_form = {playerList: [['',''],['','']]};
