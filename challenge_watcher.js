@@ -2,7 +2,7 @@ var cron = require('node-cron');
 import Duolingo from "duolingo-api-js";
 
 // '* */12 * * *' every 12 hours - check the challenge token list for broken and completed streaks
-cron.schedule('* * * * * *', async () => {
+cron.schedule('*/30 * * * * *', async () => {
   const Web3 = require('web3');
   const CT_json = require('./abis/ChallengeToken.json');
   const CT_X_json = require('./abis/CT_X.json');

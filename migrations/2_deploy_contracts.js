@@ -32,12 +32,12 @@ module.exports = function(deployer, network, accounts) {
       //        original_alm.product
       // );
     });
-    var ct_x = deployer.deploy(CT_X)
-    .then(async () => {
-        var c = await CT_X.deployed();
-        console.log(c.address);
-        return c;
-      });
+    // var ct_x = deployer.deploy(CT_X)
+    // .then(async () => {
+    //     var c = await CT_X.deployed();
+    //     console.log(c.address);
+    //     return c;
+    //   });
       // console.log(ct_x.address);
     // ct.CT_X_Address = ct_x.address;
     // console.log(ct.CT_X_Address);

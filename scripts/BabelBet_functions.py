@@ -13,9 +13,9 @@ def chooseChallenge():
     return challengeType
 def sendChallengeProposalEmail(_languanaut1, _languanaut2, _terms):
     challenge_state = "negotiating"
-    USERNAME = 'boyyee44@gmail.com' # input("What is your email? ")
+    USERNAME = '' # input("What is your email? ")
     PASSWORD = '' # input("What is your email? ")
-    MAILTO = 'solarmail888@gmail.com' # input("What is your fellow Languanaut's email? ")
+    MAILTO = '' # input("What is your fellow Languanaut's email? ")
 
     msg = MIMEMultipart()
     msg['Subject'] = "On Guard! " + str(_languanaut1['name']) + " challenges you to a " + str(_terms[0]) + " challenge on DuoLingo on Ethereum in Matic Token!"
@@ -42,9 +42,9 @@ def sendChallengeProposalEmail(_languanaut1, _languanaut2, _terms):
 
 def sendChallengeAcceptanceEmail(_languanaut2, _languanaut1, _terms):
     challenge_state = "accepted"
-    USERNAME = 'SolarMail888@gmail.com'# languanaut2
+    USERNAME = ''# languanaut2
     PASSWORD = '' # languanaut2 pass
-    MAILTO = 'boyyee44@gmail.com' # languanaut1
+    MAILTO = '' # languanaut1
 
     msg = MIMEMultipart()
     msg['Subject'] = "On Guard! You got yourself a Lingo Dual " + _languanaut1 + "!"
@@ -69,9 +69,9 @@ def sendChallengeAcceptanceEmail(_languanaut2, _languanaut1, _terms):
 
 def sendCounterOfferEmail(_languanaut2, _languanaut1, _terms):
     challenge_state = "negotiating"
-    USERNAME = 'SolarMail888@gmail.com'# languanaut2
+    USERNAME = ''# languanaut2
     PASSWORD = '' # languanaut2 pass
-    MAILTO = 'boyyee44@gmail.com' # languanaut1
+    MAILTO = '' # languanaut1
 
     msg = MIMEMultipart()
     msg['Subject'] = "Idk " + _languanaut1 + ". What about ..."

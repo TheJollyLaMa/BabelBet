@@ -41,26 +41,6 @@ router.post('/', async function(req,res,next) {
   // req.body.playerList.forEach((player) => {challenge_details.playerlist.emails.append(player[0]);});
   // req.body.challenge_details.playerList.forEach((player) => {challenge_details.playerlist.addrs.append(player[1]);});
   // req.body.playerList.forEach((player) => {challenge_details.playerlist.duonames.append(player[2]);});
-/*
-    iterate through player list and get duo streak info for each player
-    // get duo info so the players current streak count will become the challenge streak count '0'
-    // for that player. this way the challenge counts from where the player was in their streak when
-    // they joined the challenge
-    var duo = DuoLingo.DuoLingo(req.body.duo_username,req.body.duo_password);
-    var duo1_streak_at_start = duo.logIn()
-      .then( data => {
-          // console.log('data', data);
-          duo.getData().then( res => {
-              console.log('Site Streak: ', res.site_streak);
-              return res.site_streak;
-          }).catch();
-      })
-      .catch();
-    console.log(duo1_streak_at_start);
- */
-  // mint token
-  // console.log(challenge_details);
-  // const challenges = await CT_Contract.methods.getChallenges().call().then((res)=>{return res});
 
 // 26NOV2021 - solved a bug that had to do with the CT_Contract variable not being filled at this point due to a missing await statement on the initial contract assignment up above.
 // *** If you know the contract exists, you know the method is there, check your local scope & timing to make sure all the abi calls are called and returned on time
@@ -68,8 +48,13 @@ router.post('/', async function(req,res,next) {
 // an error will also tell you the function does not exist which you will know to be false and left scratching your head.
 // ** Check your SYNC/ASYNC order pendejo!
 
-// TODO: Pay challenge amount to contract when challenge is accepted by player
-  // create challenge token and return ID
+// TODO: Waiting function to wait for all participants to stake funds or drop out before the token can be minted
+//        All participants are going to sign an approval transaction to allow BabelBet to capture their funds at
+//          a later time when all participants' funds are approved OR the drop time comes (say within 24hrs).
+
+// TODO: Pay challenge amount to contract when challenge is accepted by all playersplayer
+
+/*-- Create Challenge Token and Return ID --*/
   var challengeID = await CT_Contract.methods.tokenGenesis(
     challenge_details.playerlist.addrs,
       challenge_details.name,
@@ -81,8 +66,10 @@ router.post('/', async function(req,res,next) {
   .call().then((res) => {return res;});
   console.log(challengeID);
   var Player_Email_Addr_List = [req.body.email,req.body.email_to_challenge]
-  // add players email to the Token_Player_Email_Map - thats token id, players eth wallet address, and player email address
+  /* Add Players' Email to the Token_Player_Email_Map */
+  /* - thats [token id][players eth wallet address] = player email address */
   await CT_contract.methods.update_Token_Player_Email_Map(challengeID, challenge_details.playerlist.addrs, Player_Email_Addr_List);
+  /*--- Add Duo Info ---*/
   await CT_contract.methods.update_Token_Player_Duo_Map(challengeID, challenge_details.playerlist.addrs, Player_Duo_Info_List);
 
   // send return email to other party confirming challenge terms and agreement have been set on contracts
