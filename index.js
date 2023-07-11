@@ -39,7 +39,7 @@ app.use('/ViewChallenge', viewChallengeRouter);
 app.use('/public/index.html', express.static('public/index.html'));
 app.use('/public', publicRouter);
 
-// '* */12 * * *' every 12 hours - check the challenge token list for broken and completed streaks
+// '0 */12 * * *' every 12 hours - check the challenge token list for broken and completed streaks
 cron.schedule('*/30 * * * * *', async () => {
   const Web3 = require('web3');
   const CT_json = require('./abis/ChallengeToken.json');
