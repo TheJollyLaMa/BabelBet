@@ -1,0 +1,11 @@
+cff-version: 1.2.0
+message: "If you use or build on this work, please credit it as below. A head nod goes a long way."
+title: "BabelBet"
+type: software
+authors:
+  - alias: TheJollyLaMa
+    website: "https://github.com/TheJollyLaMa"
+  - name: "A Decent Agency"
+    website: "https://github.com/A-Decent-Agency"
+repository-code: "https://github.com/TheJollyLaMa/BabelBet"
+license: Apache-2.0
