@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="BabelBet's preparation-only language bridge: free participation, local profiles, and responsible community preparation. No provider access or wagering.">
+  <title>BabelBet · A Decent language bridge</title>
+  <link rel="stylesheet" href="./app.css">
+  <script type="module" src="./app.mjs"></script>
+</head>
+<body>
+  <a class="skip" href="#main">Skip to the language bridge</a>
+  <decent-header></decent-header>
+  <main id="main" tabindex="-1">
+    <section class="hero" aria-labelledby="welcome">
+      <div class="ribbon">PREPARATION ONLY · FREE TO PARTICIPATE</div>
+      <h1 id="welcome">Many languages.<br>One Decent bridge.</h1>
+      <p class="lead">Help shape a thoughtful place to learn across languages. Today we prepare together — not compete, wager, or track anyone.</p>
+      <div class="bridge" aria-hidden="true"><span>hello</span><span>hola</span><span>bonjour</span><span>مرحبا</span><span>こんにちは</span><span>☥</span></div>
+      <p class="safety"><strong>No Duolingo access — official or unofficial.</strong> No challenges, email automation, stakes, payouts, contracts, or background watchers run here. No switch can revive the historical runtime.</p>
+      <div class="actions"><button id="tutorial-open">Bunny-hop orientation</button><button id="profile-open" class="secondary">My local profile</button><a href="./guide.html">Read the preparation guide</a></div>
+    </section>
+    <section class="cards" aria-label="Preparation workspace">
+      <article>
+        <span class="icon" aria-hidden="true">🌉</span><h2>A bridge, not a bet</h2>
+        <p>Contribute accessible design, translations, documentation, privacy review, offline tests, and permission research. Participation is free; a wallet is optional and never proof of admin authority.</p>
+        <p id="wallet-state" role="status">Wallet optional · not connected</p>
+        <p>Connecting asks your wallet for an account and Base network only. This app never asks you to sign, send funds, or provide keys. ENS lookups are disabled.</p>
+        <a href="https://github.com/TheJollyLaMa/BabelBet/issues/2" target="_blank" rel="noopener noreferrer">Experience preparation · issue #2 ↗</a>
+      </article>
+      <article>
+        <span class="icon" aria-hidden="true">☥</span><h2>Work with a steward</h2>
+        <p>The left ankh opens the admin information panel; the right opens your personal profile. Neither grants privileges. Accepted work receives steward review before any future accrual.</p>
+        <p>Payroll tooling is rigged, not financially activated: accounts, assets, and queue start empty. No budget, wallet, or deployment has been copied.</p>
+        <button id="admin-open" class="secondary">Review preparation gates</button>
+      </article>
+      <article>
+        <span class="icon" aria-hidden="true">⬡</span><h2>Your data stays yours</h2>
+        <p>Your nickname, languages and preparation notes stay in memory unless you explicitly choose this browser's local storage. Export/import is a local file operation, not an IPFS upload.</p>
+        <p>Shared IPFS controls report truthful unavailable states for public pinning and rewards. No provider keys are accepted and no upload is enabled.</p>
+        <button id="privacy-open" class="secondary">Profile privacy controls</button>
+      </article>
+    </section>
+    <section class="radio-panel" aria-labelledby="radio-heading">
+      <div><h2 id="radio-heading">A little music for the bridge</h2><p>DBuskRadio is a separate A Decent Agency product. Loading it contacts its pinned module host and radio service, which may see your IP. It may store radio preferences locally. It does not receive your profile or wallet from this app. Playback requires a separate Play click; never autoplay.</p></div>
+      <label class="radio-consent-target" for="radio-consent"><input type="checkbox" id="radio-consent"><span>I choose to load the external DBuskRadio widget in this tab.</span></label>
+      <div class="actions"><button id="radio-load" disabled>Load radio</button><button id="radio-remove" class="secondary" disabled>Unload radio</button></div>
+      <p id="radio-status" role="status" aria-live="polite">Radio not loaded · no external request</p>
+      <div id="radio-widget"></div>
+    </section>
+    <section class="policy" aria-labelledby="policy-heading"><h2 id="policy-heading">Respect people. Respect providers.</h2>
+      <p>No account scraping, unofficial clients, bypasses, or live provider tests. A future proposal must first establish documented permission, lawful consent, a steward-reviewed minimum-data contract, rate limits, caching, backoff, outage handling, and offline fixtures. Permission is not implied by a public endpoint.</p>
+      <p>An assistant is not enabled. Shared server-side helper boundaries are documented for future review; browser API keys, external AI endpoints, private handoffs and deployment context are deliberately excluded.</p>
+      <a href="./guide.html#etiquette">Provider etiquette and future acceptance policy</a>
+    </section>
+  </main>
+  <footer><span>BabelBet · A Decent Agency · historical name, preparation-only scope</span><a href="./guide.html#credits">License &amp; pinned provenance</a><button id="about-open" class="secondary">About</button></footer>
+  <dialog id="profile-dialog" aria-labelledby="profile-heading">
+    <h2 id="profile-heading">My local preparation profile</h2>
+    <p>No sign-in or wallet required. Never enter a password, provider handle, wallet seed, API key or payment address here. This profile is <strong>not</strong> contributor payout registration.</p>
+    <form id="profile-form">
+      <label for="nickname">Display nickname (optional)</label><input id="nickname" maxlength="80" autocomplete="off">
+      <label for="languages">Languages you would like to help with</label><input id="languages" maxlength="200" autocomplete="off" placeholder="For example: English, Spanish">
+      <label for="notes">Preparation notes</label><textarea id="notes" maxlength="2000" rows="4"></textarea>
+      <label><input id="remember-profile" type="checkbox"> Save these fields in this browser (shared devices may expose them).</label>
+      <div class="actions"><button type="submit">Save profile</button><button id="profile-clear" type="button" class="secondary">Clear memory &amp; browser copy</button></div>
+    </form>
+    <hr>
+    <label><input id="export-consent" type="checkbox"> I understand exported JSON is plaintext and will keep it private.</label>
+    <button id="profile-export" disabled>Export local JSON</button>
+    <label for="profile-import">Import local profile JSON (maximum 64 KiB; validated fields only)</label><input id="profile-import" type="file" accept=".json,application/json">
+    <p id="profile-status" role="status" aria-live="polite"></p>
+    <button data-close class="secondary">Close profile</button>
+  </dialog>
+  <dialog id="admin-dialog" aria-labelledby="admin-heading">
+    <h2 id="admin-heading">☥ Steward preparation panel</h2>
+    <p><strong>Information only — no browser admin authorization.</strong> Connecting any wallet, clicking an ankh, or importing a profile does not grant privileges.</p>
+    <ul class="gates"><li>Provider access: disabled, official and unofficial</li><li>Challenge/email/stake/payout runtime: disabled</li><li>Public IPFS upload / rewards: unavailable</li><li>Queue: empty · assets: empty · contributor accounts: empty</li><li>Financial activation, budgets, contracts and deployment: not configured</li><li>Merge accrual / receipt settlement: steward-gated repository workflows only</li></ul>
+    <button disabled>Provider operations · unavailable</button><button disabled>Send funds · unavailable</button>
+    <p>For accepted preparation work, ask the steward to establish a private registration channel. Do not post payout addresses or secrets to public issues. Receipt recording verifies an already-confirmed payment; it never sends one.</p>
+    <a href="./guide.html#participation">Steward review, registration and receipts</a>
+    <p><a href="https://github.com/TheJollyLaMa/BabelBet/issues/3" target="_blank" rel="noopener noreferrer">Payroll / etiquette · #3 ↗</a> · <a href="https://github.com/TheJollyLaMa/BabelBet/issues/4" target="_blank" rel="noopener noreferrer">Integration oversight · #4 ↗</a></p>
+    <button data-close class="secondary">Close steward panel</button>
+  </dialog>
+  <dialog id="tutorial-dialog" aria-labelledby="tutorial-heading">
+    <h2 id="tutorial-heading">Bunny-hop across the preparation bridge</h2>
+    <div class="bunny" aria-hidden="true">🐇 <span>🌉</span></div>
+    <p id="tutorial-progress"></p><h3 id="tutorial-title"></h3><p id="tutorial-body" aria-live="polite"></p>
+    <p>Use the buttons, Tab / Shift+Tab, and Escape to close. Motion follows your reduced-motion preference. No score, reward, account or provider request is involved.</p>
+    <div class="actions"><button id="tutorial-back" class="secondary">Previous hop</button><button id="tutorial-next">Next hop</button><button data-close class="secondary">Close orientation</button></div>
+  </dialog>
+</body>
+</html>

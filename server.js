@@ -1,12 +1,11 @@
-//server listen
-const app = require("./index");
-
-if (process.env.NODE_ENV !== 'test') {
-    app.listen(8888, () => {
-        console.log(`Server is running on port: ${8888}`);
-    });
-}else{
-  app.listen(() => {
-      console.log(`Test Server is running on default port: ` + server.address().port);
-  });
+'use strict';
+const { createServer } = require('./index');
+function start() {
+  const port = Number(process.env.PORT || 8888);
+  const host = process.env.HOST || '127.0.0.1';
+  const server = createServer();
+  server.listen(port, host, () => console.log(`BabelBet preparation only: http://${host}:${server.address().port}`));
+  return server;
 }
+module.exports = { start };
+if (require.main === module) start();

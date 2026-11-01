@@ -1,0 +1,62 @@
+name: Steward confirmed receipt settlement
+on:
+  workflow_dispatch:
+    inputs:
+      contributor_github:
+        type: string
+        required: true
+      issue_ref:
+        type: string
+        required: true
+      role:
+        type: choice
+        options: [contributor, implementer, idea-originator, tester]
+        required: true
+      currency:
+        description: Reviewed configured Base asset symbol
+        type: string
+        required: true
+      tx_hash:
+        description: Already-confirmed transaction; this workflow never sends a payment
+        type: string
+        required: true
+permissions: {}
+jobs:
+  settle:
+    if: vars.BABELBET_PAYROLL_ENABLED == 'true' && github.actor == 'TheJollyLaMa'
+    environment: steward-payroll
+    concurrency:
+      group: babelbet-payroll
+      cancel-in-progress: false
+    permissions:
+      contents: write
+      issues: write
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci --ignore-scripts --no-audit --no-fund
+      - run: node scripts/validatePayrollQueue.js
+      - run: node scripts/settlePayroll.js
+        env:
+          BABELBET_PAYROLL_ENABLED: ${{ vars.BABELBET_PAYROLL_ENABLED }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          INPUT_CONTRIBUTOR_GITHUB: ${{ inputs.contributor_github }}
+          INPUT_ISSUE_REF: ${{ inputs.issue_ref }}
+          INPUT_ROLE: ${{ inputs.role }}
+          INPUT_CURRENCY: ${{ inputs.currency }}
+          INPUT_TX_HASH: ${{ inputs.tx_hash }}
+      - run: node scripts/validatePayrollQueue.js
+      - name: Persist verified receipt
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add payroll-queue.json contributor-accounts.json
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m "chore: record verified payroll receipt" -m "Co-authored-by: Copilot <223556219+Copilot@users.noreply.github.com>"
+          git push origin HEAD:main

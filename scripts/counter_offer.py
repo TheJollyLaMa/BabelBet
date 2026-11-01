@@ -1,4 +1,1 @@
-import BabelBet_functions as BabelBet
-
-#bring in arguments sent from node route as the new terms
-BabelBet.sendCounterOfferEmail(_languanaut2, _languanaut1, _terms)
+raise RuntimeError("Preparation only: all provider access and wagering disabled. Historical source: history/scripts/counter_offer.py.source")

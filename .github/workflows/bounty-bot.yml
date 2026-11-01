@@ -1,0 +1,50 @@
+name: Steward accepted-work merge accrual
+on:
+  pull_request_target:
+    types: [closed]
+    branches: [main]
+  workflow_dispatch:
+    inputs:
+      pr_number:
+        description: Already-merged preparation pull request number
+        type: string
+        required: true
+permissions: {}
+jobs:
+  accrue:
+    if: >-
+      vars.BABELBET_PAYROLL_ENABLED == 'true' &&
+      github.actor == 'TheJollyLaMa' &&
+      (github.event_name == 'workflow_dispatch' || github.event.pull_request.merged == true)
+    environment: steward-payroll
+    concurrency:
+      group: babelbet-payroll
+      cancel-in-progress: false
+    permissions:
+      contents: write
+      issues: write
+      pull-requests: read
+    runs-on: ubuntu-latest
+    steps:
+      # Never check out or execute a pull request head with privileged credentials.
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: node scripts/validatePayrollQueue.js
+      - run: node scripts/processMergedBounty.js
+        env:
+          BABELBET_PAYROLL_ENABLED: ${{ vars.BABELBET_PAYROLL_ENABLED }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          INPUT_PR_NUMBER: ${{ inputs.pr_number }}
+      - run: node scripts/validatePayrollQueue.js
+      - name: Persist steward-approved accrual
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add payroll-queue.json contributor-accounts.json
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m "chore: record steward accepted-work accrual" -m "Co-authored-by: Copilot <223556219+Copilot@users.noreply.github.com>"
+          git push origin HEAD:main
