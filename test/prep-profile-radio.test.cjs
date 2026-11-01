@@ -1,0 +1,52 @@
+const test = require('node:test');
+const assert = require('node:assert/strict');
+test('local profile has strict schema, no imported secrets, limits and explicit persistence consent', async () => {
+  const { emptyProfile,parseProfile,persistProfile,readProfile,PROFILE_KEY } = await import('../prep/profile.mjs');
+  const profile = {...emptyProfile(),nickname:'A learner',languages:'Spanish',notes:'Offline preparation'};
+  const entries = new Map(), storage={getItem:key=>entries.get(key)??null,setItem:(key,value)=>entries.set(key,value),removeItem:key=>entries.delete(key)};
+  assert.deepEqual(readProfile(storage),emptyProfile());
+  persistProfile(storage,profile,false); assert.equal(entries.size,0);
+  persistProfile(storage,profile,true); assert.equal(entries.has(PROFILE_KEY),true);
+  assert.deepEqual(readProfile(storage),profile);
+  persistProfile(storage,profile,false); assert.equal(entries.size,0);
+  for (const bad of [{...profile,apiKey:'not-accepted'},{...profile,address:'not-accepted'},{...profile,version:2},{...profile,notes:1},{...profile,notes:'x'.repeat(2001)},[],null]) assert.throws(()=>parseProfile(JSON.stringify(bad)));
+  assert.throws(()=>parseProfile(' '.repeat(65537)),/64 KiB/);
+  assert.throws(()=>parseProfile('{"version":1,"nickname":"","languages":"","notes":"","__proto__":{}}'));
+});
+test('shared version-1 IPFS host exposes real local backup controls and unavailable omitted public capabilities',async()=>{
+  const {createPreparationIPFSHost}=await import('../prep/ipfs-adapter.mjs');
+  const {readIPFSHostStatus,openIPFSHostControls}=await import('../prep/vendor/decent-head/2.0.0/js/ipfs-host.js');
+  let opened=0;
+  const adapter=createPreparationIPFSHost({openLocalBackup:()=>opened++});
+  const status=await readIPFSHostStatus(adapter);
+  assert.equal(status.backup.state,'idle');
+  assert.match(status.backup.detail,/local profile JSON/);
+  assert.equal(status.replication.state,'unavailable');
+  assert.equal(status.rewards.state,'unavailable');
+  await openIPFSHostControls(adapter,'backup');assert.equal(opened,1);
+  await assert.rejects(openIPFSHostControls(adapter,'replication'),/not configured/);
+  assert.throws(()=>createPreparationIPFSHost({}),/required/);
+});
+test('radio performs zero requests before consent, mounts actual API without autoplay/head, and cleans up', async () => {
+  const {createRadio,WIDGET_URL}=await import('../prep/radio.mjs');
+  let loads=0,destroys=0,options;
+  const element={replaceChildren(){}},status={textContent:''};
+  const radio=createRadio({element,status,loadWidget:async url=>{loads++;assert.equal(url,WIDGET_URL);return{mount:(_element,opts)=>{options=opts;return{destroy:()=>destroys++};}};}});
+  assert.equal(loads,0); assert.equal(await radio.load(false),false); assert.equal(loads,0);
+  assert.equal(await radio.load(true),true); assert.equal(loads,1);
+  assert.equal(options.autoplay,undefined); assert.equal(options.head,undefined);
+  assert.equal(options.volume,.08); assert.equal(options.compact,true);
+  await radio.load(true);assert.equal(loads,1);
+  radio.destroy();assert.equal(destroys,1);
+  radio.destroy();assert.equal(destroys,1);
+});
+test('radio reports unavailable/retry and ignores late import after revocation', async () => {
+  const {createRadio}=await import('../prep/radio.mjs');
+  const status={textContent:''},element={replaceChildren(){}};
+  const broken=createRadio({element,status,loadWidget:async()=>{throw new Error('offline');}});
+  assert.equal(await broken.load(true),false);assert.match(status.textContent,/unavailable.*Retry/);
+  let resolve,mounted=0;
+  const radio=createRadio({element,status,loadWidget:()=>new Promise(done=>{resolve=done;})});
+  const pending=radio.load(true);radio.destroy();resolve({mount:()=>{mounted++;return{destroy(){}};}});
+  assert.equal(await pending,false);assert.equal(mounted,0);
+});

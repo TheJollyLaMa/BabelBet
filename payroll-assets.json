@@ -1,0 +1,12 @@
+{
+  "activated": false,
+  "repository": "TheJollyLaMa/BabelBet",
+  "stewardGitHub": "TheJollyLaMa",
+  "chainId": 8453,
+  "fundSlug": "babelbet",
+  "routerAddress": null,
+  "rpcUrl": null,
+  "rpcFallbackUrls": [],
+  "assets": {},
+  "blockedPayoutAddresses": []
+}
