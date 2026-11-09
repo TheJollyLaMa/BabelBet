@@ -1,5 +1,4 @@
 import { emptyProfile, readProfile, parseProfile, persistProfile, MAX_IMPORT_BYTES, PROFILE_KEY } from './profile.mjs';
-import { createRadio } from './radio.mjs';
 import { createPreparationIPFSHost } from './ipfs-adapter.mjs';
 const $ = id => document.getElementById(id);
 const returnFocus = new WeakMap();
@@ -25,10 +24,10 @@ globalThis.DECENT_CONFIG = {
     title: 'About BabelBet’s preparation bridge',
     summary: 'A free, preparation-only Decent experience. The historical betting implementation is archived, not activated.',
     sections: [
-      { title: 'What is available', body: 'Optional EIP-6963 wallet session, private local profile files, accessible bunny-hop orientation, contextual shared ankhs, and opt-in standalone DBuskRadio.' },
+      { title: 'What is available', body: 'Optional EIP-6963 wallet session, private local profile files, accessible bunny-hop orientation and contextual shared ankhs.' },
       { title: 'Safety comes first', body: 'Official and unofficial Duolingo access, watchers, challenges, email, stakes and payouts are disabled. No provider, AI, contract, wallet secret or financial configuration is bundled.' },
       { title: 'Participation and accepted work', body: 'Participation is free. Preparation work requires steward acceptance and review. Request a private contributor registration channel; never put payout addresses or keys in public issues. Gated receipt tooling records proven prior payments only, never transfers funds.' },
-      { title: 'Data and storage', body: 'Profiles are tab-local unless you explicitly save in this browser. Local export is plaintext; keep it private. IPFS uploads, community pinning and rewards are unavailable. A wallet is neither required nor admin authorization.' }
+      { title: 'Data and storage', body: 'Profiles are tab-local unless you explicitly save in this browser. Local export is plaintext; keep it private. Provider choice is not verification. Explicit Verify checks your personal Pinata authentication or local Kubo version without uploads; credentials stay in this tab. Provider readiness does not verify backup or retention. IPFS uploads, community pinning and rewards are unavailable. UCAN authorization is not implemented. A wallet is neither required nor admin authorization.' }
     ]
   },
   links: [{ label: 'Preparation guide', url: new URL('./guide.html', location.href).href }],
@@ -99,7 +98,7 @@ const hops = [
   ['Explore the shared head', 'The two ankhs flank the title: left for steward information, right for your local profile. Click the title for About. Optional wallet connection does not grant privileges or request a signature.'],
   ['Keep your profile private', 'Save in memory, explicitly remember in this browser, or export/import a local JSON file. No provider login or wallet address belongs in your profile. IPFS uploads and rewards remain unavailable.'],
   ['Join accepted preparation work', 'Offer translations, accessibility improvements, documentation or offline tests. A steward reviews and accepts work before any future accrual. Arrange contributor registration privately, not in public issues.'],
-  ['Choose music, or quiet', 'Radio starts unloaded. Consent loads the standalone DBuskRadio widget, then Play is another choice. Permission, privacy and provider etiquette must be agreed before future integrations. You are ready to help prepare — no score or prize.']
+  ['Prepare responsibly', 'Permission, privacy and provider etiquette must be agreed before future integrations. You are ready to help prepare — no score or prize.']
 ];
 let hop = 0;
 function renderHop() {
@@ -110,21 +109,6 @@ function renderHop() {
 $('tutorial-open').onclick = () => { hop = 0; renderHop(); open('tutorial-dialog'); };
 $('tutorial-back').onclick = () => { if (hop > 0) { hop--; renderHop(); } };
 $('tutorial-next').onclick = () => { if (hop === hops.length - 1) $('tutorial-dialog').close(); else { hop++; renderHop(); } };
-const radio = createRadio({ element: $('radio-widget'), status: $('radio-status') });
-$('radio-consent').onchange = () => {
-  $('radio-load').disabled = !$('radio-consent').checked;
-  if (!$('radio-consent').checked) { radio.destroy(); $('radio-remove').disabled = true; $('radio-load').textContent = 'Load radio'; }
-};
-$('radio-load').onclick = async () => {
-  $('radio-load').disabled = true; $('radio-remove').disabled = false;
-  const loaded = await radio.load($('radio-consent').checked);
-  $('radio-load').textContent = loaded ? 'Radio loaded' : 'Retry radio';
-  $('radio-load').disabled = loaded || !$('radio-consent').checked;
-};
-$('radio-remove').onclick = () => {
-  radio.destroy(); $('radio-consent').checked = false; $('radio-load').disabled = true; $('radio-remove').disabled = true; $('radio-load').textContent = 'Load radio';
-};
 window.addEventListener('pagehide', () => {
-  radio.destroy(); DecentHead.getWallet().forget();
-  $('radio-consent').checked = false; $('radio-load').disabled = true; $('radio-remove').disabled = true;
+  DecentHead.getWallet().forget();
 });

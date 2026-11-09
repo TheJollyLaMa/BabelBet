@@ -1,14 +1,75 @@
 import { config } from './config.js';
 export function validCID(cid) { return typeof cid === 'string' && /^(Qm[1-9A-HJ-NP-Za-km-z]{44}|b[a-z2-7]{20,})$/.test(cid); }
 export class IPFSSession {
-  constructor(options = config.providers) { this.options = options; this.provider = options.default; this.credentials = {}; this.adapter = null; }
+  constructor(options = config.providers) {
+    this.options = options;
+    this.provider = options.default;
+    this.credentials = {};
+    this.adapter = null;
+    this.revision = 0;
+    this.connection = { state: 'unverified', detail: 'Provider connection has not been checked.' };
+  }
   configure({ provider, jwt = '', apiKey = '', apiSecret = '' }) {
     if (!['pinata', 'local'].includes(provider)) throw new Error('Unknown IPFS provider');
     this.provider = provider;
     this.credentials = { jwt, apiKey, apiSecret };
+    this.revision++;
+    this.connection = { state: 'unverified', detail: 'Provider selected; connection not checked.' };
     window.dispatchEvent(new CustomEvent('decenthead:ipfs', { detail: this.snapshot() }));
   }
-  snapshot() { return { provider: this.provider, adapter: this.adapter, credentialsConfigured: !!(this.credentials.jwt || this.credentials.apiKey), ucanAuth: 'planned' }; }
+  snapshot() { return { provider: this.provider, adapter: this.adapter, credentialsConfigured: !!(this.credentials.jwt || this.credentials.apiKey), ucanAuth: 'planned', connection: { ...this.connection } }; }
+  async verifyConnection() {
+    if (this.connection.state === 'checking') throw new Error('A provider connection check is already running.');
+    const revision = this.revision;
+    const provider = this.provider;
+    this.connection = { state: 'checking', detail: 'Checking provider connectivity; no upload or pin requested.' };
+    window.dispatchEvent(new CustomEvent('decenthead:ipfs', { detail: this.snapshot() }));
+    try {
+      let url, options;
+      if (provider === 'pinata') {
+        if (!this.credentials.jwt && !(this.credentials.apiKey && this.credentials.apiSecret)) {
+          throw new Error('Enter your personal Pinata JWT or API key and secret, then use provider.');
+        }
+        url = 'https://api.pinata.cloud/data/testAuthentication';
+        options = { method: 'GET', headers: this.headers() };
+      } else {
+        const endpoint = new URL(this.options.local.apiUrl);
+        if (!['http:', 'https:'].includes(endpoint.protocol) || endpoint.username || endpoint.password ||
+            endpoint.search || endpoint.hash || !['127.0.0.1', 'localhost', '[::1]'].includes(endpoint.hostname)) {
+          throw new Error('Local Kubo connectivity checks require a credential-free loopback HTTP(S) endpoint.');
+        }
+        url = `${endpoint.href.replace(/\/$/, '')}/api/v0/version`;
+        options = { method: 'POST' };
+      }
+      let response;
+      try {
+        response = await fetch(url, { ...options, signal: AbortSignal.timeout(15000), redirect: 'error', cache: 'no-store', credentials: 'omit' });
+      } catch {
+        throw new Error('Provider connection failed or timed out. Check the endpoint, network and local Kubo CORS configuration.');
+      }
+      if (!response.ok) throw new Error(`Provider connection failed (HTTP ${response.status}).`);
+      let result;
+      try { result = await response.json(); }
+      catch { throw new Error('Provider connection returned invalid JSON.'); }
+      if (provider === 'pinata'
+        ? result?.message !== 'Congratulations! You are communicating with the Pinata API!'
+        : typeof result?.Version !== 'string' || !result.Version.trim()) {
+        throw new Error('Provider connection returned an unexpected authentication/version response.');
+      }
+      if (revision !== this.revision) throw new Error('Provider changed during the check. Verify the newly selected provider.');
+      this.connection = { state: 'ready', detail: provider === 'pinata'
+        ? 'Pinata authenticated for this credential. Upload permissions, retention, backups and rewards are not verified.'
+        : 'Local Kubo version endpoint responded. Pinning, retention, backups and rewards are not verified.' };
+      window.dispatchEvent(new CustomEvent('decenthead:ipfs', { detail: this.snapshot() }));
+      return { ...this.connection };
+    } catch (error) {
+      if (revision === this.revision) {
+        this.connection = { state: 'error', detail: error.message };
+        window.dispatchEvent(new CustomEvent('decenthead:ipfs', { detail: this.snapshot() }));
+      }
+      throw error;
+    }
+  }
   headers() {
     const { jwt, apiKey, apiSecret } = this.credentials;
     if (jwt) return { Authorization: `Bearer ${jwt}` };

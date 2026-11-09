@@ -19,14 +19,18 @@ async function setup(t, wallet = false) {
   await page.addInitScript(({ wallet })=>{
     window.__walletRequests=[];
     if (wallet) {
+      window.__walletHandlers={};
       const provider={
         request:async ({method})=>{
           window.__walletRequests.push(method);
-          if (method==='eth_requestAccounts') return ['0x3333333333333333333333333333333333333333'];
+          if (method==='eth_requestAccounts') {
+            if (window.__rejectWallet) throw new Error('Rejected by user');
+            return ['0x3333333333333333333333333333333333333333'];
+          }
           if (method==='eth_chainId') return '0x2105';
           if (method==='wallet_switchEthereumChain') return null;
           throw new Error(`Unapproved wallet operation ${method}`);
-        },on(){},removeListener(){}
+        },on(name,handler){window.__walletHandlers[name]=handler;},removeListener(name){delete window.__walletHandlers[name];}
       };
       window.ethers={BrowserProvider:class{constructor(provider){this.provider=provider;}}};
       window.addEventListener('eip6963:requestProvider',()=>window.dispatchEvent(new CustomEvent('eip6963:announceProvider',{detail:{info:{uuid:'offline-provider',name:'Offline wallet',rdns:'org.example.offline',icon:'https://invalid.example/icon'},provider}})));
@@ -43,7 +47,7 @@ async function setup(t, wallet = false) {
   return {page,context,base,external,errors};
 }
 
-test('receiving browser: full prep UI, optional wallet, menus, privacy, tutorial, IPFS gates, radio consent; no external requests', async t=>{
+test('receiving browser: full prep UI, optional wallet, menus, privacy, tutorial and IPFS gates; no external requests', async t=>{
   const {page,context,external,errors}=await setup(t);
   assert.deepEqual(await page.evaluate(()=>window.__walletRequests),[]);
   assert.equal(await page.evaluate(() => {
@@ -51,12 +55,11 @@ test('receiving browser: full prep UI, optional wallet, menus, privacy, tutorial
     return ['configure','request','upload','restore','pin'].every(method=>ipfs[method]===prototype[method]);
   }),true);
   assert.equal(await page.locator('#wallet-state').textContent(),'Wallet optional · not connected');
-  assert.equal(await page.locator('decent-header ipfs-status #label').textContent(),'IPFS · unconfigured · local files only');
+  assert.equal(await page.locator('decent-header ipfs-status #label').textContent(),'IPFS · unconfigured · local files only · unverified');
   await page.evaluate(()=>window.dispatchEvent(new CustomEvent('decenthead:ipfs',{detail:window.DecentHead.getIpfs().snapshot()})));
-  assert.equal(await page.locator('decent-header ipfs-status #label').textContent(),'IPFS · unconfigured · local files only');
+  assert.equal(await page.locator('decent-header ipfs-status #label').textContent(),'IPFS · unconfigured · local files only · unverified');
   assert.doesNotMatch(await page.locator('decent-header ipfs-status #label').textContent(),/pinata|ready/i);
-  assert.equal(await page.locator('#radio-load').isDisabled(),true);
-  assert.match(await page.locator('#radio-status').textContent(),/no external request/);
+  assert.equal(await page.locator('#radio-widget').count(),0);
   await page.locator('decent-header ankh-menu[side="left"] summary').click();
   await page.locator('decent-header ankh-menu[side="left"] button').click();
   assert.equal(await page.locator('#admin-dialog').evaluate(node=>node.open),true);
@@ -101,9 +104,11 @@ test('receiving browser: full prep UI, optional wallet, menus, privacy, tutorial
     const controls=header.shadowRoot.querySelector('ipfs-status').querySelector('ipfs-controls');
     return controls.shadowRoot.getElementById('replication-status').textContent.startsWith('unavailable:');
   });
-  assert.equal(await page.locator('decent-header ipfs-controls #provider-settings').isVisible(),false);
-  assert.equal(await page.locator('decent-header ipfs-controls #save-provider').isDisabled(),true);
-  await page.locator('decent-header ipfs-controls #save-provider').evaluate(node=>node.onclick());
+  assert.equal(await page.locator('decent-header ipfs-controls #provider-settings').isVisible(),true);
+  await page.locator('decent-header ipfs-controls #provider-settings > summary').click();
+  await page.locator('decent-header ipfs-controls #provider').selectOption('local');
+  await page.locator('decent-header ipfs-controls #save-provider').click();
+  assert.match(await page.locator('decent-header ipfs-controls #provider-message').textContent(),/not yet verified/);
   assert.equal(await page.evaluate(()=>window.DecentHead.getIpfs().snapshot().credentialsConfigured),false);
   assert.equal(await page.locator('decent-header ipfs-controls [data-capability="replication"]').isDisabled(),true);
   assert.equal(await page.locator('decent-header ipfs-controls [data-capability="rewards"]').isDisabled(),true);
@@ -113,20 +118,29 @@ test('receiving browser: full prep UI, optional wallet, menus, privacy, tutorial
   await page.locator('#about-open').click();
   assert.match(await page.locator('decent-header about-modal dialog').textContent(),/BabelBet/);
   await page.keyboard.press('Escape');
+  assert.equal(await page.locator('#about-open').evaluate(node=>document.activeElement===node),true);
   assert.deepEqual(external,[]);assert.deepEqual(errors,[]);
-  // Fulfill the pinned module locally; never contact CDN/worker/stream.
-  await context.route('https://cdn.jsdelivr.net/**',route=>route.fulfill({contentType:'text/javascript',body:'export function mount(element,options){globalThis.__radioOptions=options;element.textContent="Offline radio · press Play";return{destroy(){element.textContent="";globalThis.__radioDestroyed=true;}}}'}));
-  await page.locator('#radio-consent').check();
-  await page.locator('#radio-load').click();
-  await page.waitForFunction(()=>globalThis.__radioOptions);
-  assert.equal(await page.evaluate(()=>globalThis.__radioOptions.autoplay),undefined);
-  assert.equal(await page.evaluate(()=>globalThis.__radioOptions.head),undefined);
-  await page.locator('#radio-consent').uncheck();
-  assert.equal(await page.evaluate(()=>globalThis.__radioDestroyed),true);
-  assert.equal(await page.locator('#radio-widget').textContent(),'');
-  assert.deepEqual(external,[]);assert.deepEqual(errors,[]);
-  await page.setViewportSize({width:390,height:844});
+  await page.setViewportSize({width:375,height:844});
   assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),true);
+});
+
+test('wallet rejection and account/network changes remain in the one shared session',async t=>{
+  const {page,external,errors}=await setup(t,true);
+  const button=page.locator('decent-header wallet-connect #connect');
+  await page.evaluate(()=>{window.__rejectWallet=true;});
+  await button.click();
+  await page.locator('decent-header wallet-connect #status').getByText('Rejected by user').waitFor();
+  assert.equal(await page.evaluate(()=>window.DecentHead.getWallet().snapshot().connected),false);
+  await page.evaluate(()=>{window.__rejectWallet=false;});
+  await button.click();
+  await page.waitForFunction(()=>window.DecentHead.getWallet().snapshot().connected);
+  await page.evaluate(()=>window.__walletHandlers.accountsChanged(['0x4444444444444444444444444444444444444444']));
+  assert.equal(await page.evaluate(()=>window.DecentHead.getWallet().snapshot().address),'0x4444444444444444444444444444444444444444');
+  await page.evaluate(()=>window.__walletHandlers.chainChanged('0x1'));
+  assert.equal(await page.evaluate(()=>window.DecentHead.getWallet().snapshot().chainId),'0x1');
+  await button.click();
+  assert.equal(await page.evaluate(()=>window.DecentHead.getWallet().snapshot().connected),false);
+  assert.deepEqual(external,[]);assert.deepEqual(errors,[]);
 });
 
 test('explicit host bridge preserves generic upstream default when host-only mode is absent', async t => {
@@ -140,28 +154,6 @@ test('explicit host bridge preserves generic upstream default when host-only mod
   assert.equal(await page.locator('decent-header ipfs-controls #provider-settings').isVisible(),true);
   assert.equal(await page.locator('decent-header ipfs-controls #save-provider').isDisabled(),false);
   assert.equal(await page.locator('decent-header ipfs-controls #community-settings').isVisible(),true);
-  assert.deepEqual(external,[]);assert.deepEqual(errors,[]);
-});
-
-test('radio consent has stable accessible target at 1024x768 and scroll/check needs no force',async t=>{
-  const {page,external,errors}=await setup(t);
-  await page.setViewportSize({width:1024,height:768});
-  const consent=page.locator('#radio-consent');
-  await consent.scrollIntoViewIfNeeded({timeout:5000});
-  const first=await consent.boundingBox();
-  await page.waitForTimeout(150);
-  const second=await consent.boundingBox();
-  assert.deepEqual(second,first);
-  assert.ok((await page.locator('.radio-consent-target').boundingBox()).height>=44);
-  await consent.check({timeout:5000});
-  assert.equal(await consent.isChecked(),true);
-  assert.equal(await page.locator('#radio-load').isEnabled(),true);
-  await consent.uncheck({timeout:5000});
-  await page.emulateMedia({reducedMotion:'no-preference'});
-  await page.evaluate(()=>scrollTo(0,0));
-  await consent.scrollIntoViewIfNeeded({timeout:5000});
-  await consent.check({timeout:5000});
-  assert.equal(await consent.isChecked(),true);
   assert.deepEqual(external,[]);assert.deepEqual(errors,[]);
 });
 

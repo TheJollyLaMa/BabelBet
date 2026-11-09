@@ -1,6 +1,10 @@
 # Explicit DecentHead 2.0.0 host-bridge adaptation
 
-Base pin: `426ccb7ad8de658cda374b11ebc4b544b35257e6`.
+Base pin: `426ccb7ad8de658cda374b11ebc4b544b35257e6`. The supported
+manifest was byte-compared against canonical
+`00691c4fe93fd280f5aec780bdc4fac651bfcdb1`; only the three documented
+component patches differ. This rollout keeps those patches and adjusts
+host-only provider selection as described below.
 This receiving app uses the supported config, version-1 IPFS host adapter,
 `DecentHead.on('wallet', ...)`, and wallet session. It does not replace or
 monkeypatch `ipfs.configure/request/upload/restore/pin`, `openBackup`, or query
@@ -30,10 +34,17 @@ Three explicit component patches add a small host bridge:
    The title retains its existing About behavior.
 3. `js/components/Header/IPFSControls.js`: opt-in
    `DECENT_CONFIG.ipfsControlsMode = 'host-only'` hides/disables generic
-   credential/upload/pin controls and declines their synthetic actions, while
+   credential/upload/pin controls and declines upload/pin actions, while
    retaining the version-1 adapter status/open contract. Omitted capabilities
    remain visible with truthful unavailable status and disabled buttons. Default
-   mode is unchanged for upstream adopters.
+   mode is unchanged for upstream adopters. The current host-only adaptation
+   permits selecting a provider without an automatic request. The shared
+   `IPFSSession.verifyConnection()` flow and probe UI from canonical `00691c4`
+   support explicit personal Pinata authentication or loopback Kubo version checks.
+   Credentials stay in tab memory; CSP permits only those exact endpoints,
+   not uploads or pins. `IPFSStatus` ready requires successful verification,
+   not credentials or local selection. Local-profile export/import remains
+   local files, not IPFS; provider readiness is not retention or backup.
 
 Exact original bytes for these three files are preserved in
 `vendor/decent-head-upstream/js/components/*.source`, outside the served tree.

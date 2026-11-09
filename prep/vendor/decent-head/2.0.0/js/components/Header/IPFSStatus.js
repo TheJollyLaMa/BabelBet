@@ -31,10 +31,10 @@ export class IPFSStatus extends HTMLElement {
   orbRect() { return this.shadowRoot?.querySelector('.orb')?.getBoundingClientRect(); }
   renderState(detail = ipfs.snapshot()) {
     const provider = PROVIDER_LABELS[detail.provider] || String(detail.provider || 'IPFS').toUpperCase();
-    const ready = detail.credentialsConfigured || detail.provider === 'local';
+    const ready = detail.connection?.state === 'ready';
     const cid = detail.cid ? ` ✦ ${detail.cid.slice(0, 12)}…` : '';
     setRing(this.shadowRoot, `✦ IPFS ✦ ${provider}${cid} ✦ YOUR DATA ✦ YOUR CHOICE `, ready ? 'ready' : 'idle');
-    this.shadowRoot.querySelector('#label').textContent = `IPFS · ${detail.provider === 'local' ? 'your node' : detail.provider}`;
+    this.shadowRoot.querySelector('#label').textContent = `IPFS · ${detail.provider === 'local' ? 'your node' : detail.provider} · ${detail.connection?.state || 'unverified'}`;
   }
 }
 if (!customElements.get('ipfs-status')) customElements.define('ipfs-status', IPFSStatus);

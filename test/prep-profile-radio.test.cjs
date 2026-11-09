@@ -27,26 +27,3 @@ test('shared version-1 IPFS host exposes real local backup controls and unavaila
   await assert.rejects(openIPFSHostControls(adapter,'replication'),/not configured/);
   assert.throws(()=>createPreparationIPFSHost({}),/required/);
 });
-test('radio performs zero requests before consent, mounts actual API without autoplay/head, and cleans up', async () => {
-  const {createRadio,WIDGET_URL}=await import('../prep/radio.mjs');
-  let loads=0,destroys=0,options;
-  const element={replaceChildren(){}},status={textContent:''};
-  const radio=createRadio({element,status,loadWidget:async url=>{loads++;assert.equal(url,WIDGET_URL);return{mount:(_element,opts)=>{options=opts;return{destroy:()=>destroys++};}};}});
-  assert.equal(loads,0); assert.equal(await radio.load(false),false); assert.equal(loads,0);
-  assert.equal(await radio.load(true),true); assert.equal(loads,1);
-  assert.equal(options.autoplay,undefined); assert.equal(options.head,undefined);
-  assert.equal(options.volume,.08); assert.equal(options.compact,true);
-  await radio.load(true);assert.equal(loads,1);
-  radio.destroy();assert.equal(destroys,1);
-  radio.destroy();assert.equal(destroys,1);
-});
-test('radio reports unavailable/retry and ignores late import after revocation', async () => {
-  const {createRadio}=await import('../prep/radio.mjs');
-  const status={textContent:''},element={replaceChildren(){}};
-  const broken=createRadio({element,status,loadWidget:async()=>{throw new Error('offline');}});
-  assert.equal(await broken.load(true),false);assert.match(status.textContent,/unavailable.*Retry/);
-  let resolve,mounted=0;
-  const radio=createRadio({element,status,loadWidget:()=>new Promise(done=>{resolve=done;})});
-  const pending=radio.load(true);radio.destroy();resolve({mount:()=>{mounted++;return{destroy(){}};}});
-  assert.equal(await pending,false);assert.equal(mounted,0);
-});

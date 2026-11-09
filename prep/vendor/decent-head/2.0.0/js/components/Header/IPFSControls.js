@@ -59,6 +59,8 @@ export class IPFSControls extends HTMLElement {
           </details></div>
           <p id="local-settings" class="quiet" hidden>Use your running IPFS Desktop / Kubo node. Allow this dapp’s origin in its CORS settings. See the setup guide below.</p>
           <button id="save-provider">Use provider</button>
+          <button id="verify-provider" type="button">Verify provider connection (no upload)</button>
+          <p class="quiet">Verification sends credentials only to Pinata's authentication endpoint, or reads your local Kubo version. It does not upload, pin, verify retention or authorize UCAN.</p>
           <p id="provider-message" role="status"></p>
         </details>
         <section id="data-controls" hidden><h3>Backup / restore</h3>
@@ -84,7 +86,7 @@ export class IPFSControls extends HTMLElement {
       </dialog>`;
     const root = this.shadowRoot;
     if (config.ipfsControlsMode === 'host-only') {
-      for (const id of ['provider-settings', 'community-settings', 'data-controls']) {
+      for (const id of ['community-settings', 'data-controls']) {
         const section = root.getElementById(id);
         section.hidden = true;
         section.querySelectorAll('input,select,button').forEach(control => { control.disabled = true; });
@@ -101,13 +103,21 @@ export class IPFSControls extends HTMLElement {
     root.getElementById('provider').onchange = showProvider;
     showProvider();
     root.getElementById('save-provider').onclick = () => {
-      if (config.ipfsControlsMode === 'host-only') return;
       try {
         ipfs.configure({ provider: root.getElementById('provider').value, jwt: root.getElementById('jwt').value.trim(),
           apiKey: root.getElementById('key').value.trim(), apiSecret: root.getElementById('secret').value.trim() });
         for (const id of ['jwt', 'key', 'secret']) root.getElementById(id).value = '';
         root.getElementById('provider-message').textContent = `${ipfs.provider} selected; not yet verified. No data uploaded.`;
       } catch (error) { root.getElementById('provider-message').textContent = error.message; }
+    };
+    root.getElementById('verify-provider').onclick = async () => {
+      const button = root.getElementById('verify-provider');
+      const message = root.getElementById('provider-message');
+      button.disabled = true;
+      message.textContent = 'Checking provider connection; no upload requested.';
+      try { message.textContent = (await ipfs.verifyConnection()).detail; }
+      catch (error) { message.textContent = error.message; }
+      finally { button.disabled = false; }
     };
     this.action = async (id, run) => {
       const button = root.getElementById(id), message = root.getElementById(id === 'pin' ? 'pin-message' : 'data-message');

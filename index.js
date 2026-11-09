@@ -4,7 +4,7 @@ const fs = require('node:fs');
 const path = require('node:path');
 const root = path.join(__dirname, 'prep');
 const types = { '.html': 'text/html', '.js': 'text/javascript', '.mjs': 'text/javascript', '.css': 'text/css', '.json': 'application/json', '.svg': 'image/svg+xml', '.png': 'image/png', '.gif': 'image/gif', '.md': 'text/plain' };
-const csp = "default-src 'self'; script-src 'self' https://cdn.jsdelivr.net/gh/A-Decent-Agency/DBuskRadio@1fe9ed0c2afc61552328fdda10d0f199bc3eaee9/; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'self' https://decentbusking.onrender.com; frame-src 'none'; media-src blob: https://decentbusking.onrender.com; object-src 'none'; base-uri 'none'; form-action 'none'; frame-ancestors 'none'";
+const csp = "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'self' https://api.pinata.cloud/data/testAuthentication http://127.0.0.1:5001/api/v0/version; frame-src 'none'; media-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'; frame-ancestors 'none'";
 
 function handler(req, res) {
   res.setHeader('Content-Security-Policy', csp);

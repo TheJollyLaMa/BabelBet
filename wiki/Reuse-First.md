@@ -1,5 +1,29 @@
 # Receiving need and committed-source reuse
 
+## 2026-11-07 header rollout
+
+The receiving base is the existing preparation worktree at
+`e06528e0ba9c33a8afe06a1785dac5dfe85aa221`, not old main. Rechecked
+DecentHead `00691c4fe93fd280f5aec780bdc4fac651bfcdb1`: the supported manifest
+matches the earlier `426ccb7` vendor except the three documented host-bridge
+patches. Kept `WalletSession`, `DecentHead.on`, `IPFSControls`, and
+`createPreparationIPFSHost`; adapted host-only controls to permit unverified
+provider selection without credentials or network. Local profile import/export
+remains local, with no public profile upload or UCAN authorization. The earlier
+radio widget is removed from this rollout; prior radio notes below are historical.
+Receiving `npm test` and inactive `npm run payroll:validate` run offline; no
+deployment, provider connection, storage durability or financial activation is
+claimed.
+
+The follow-up functional-connect acceptance adapts the explicit shared
+`IPFSSession.verifyConnection()` flow and probe UI from canonical DecentHead
+`00691c4`. Personal credential memory is permitted solely for explicit fixed-endpoint
+Pinata authentication; Kubo uses credential-free loopback version reads.
+`IPFSStatus` displays ready only after a valid probe response, never from
+selection. Local backup remains private files, public uploads/pins/rewards
+unavailable. Receiving `test/provider-connect.browser.cjs` exercises actual
+preparation CSP with synthetic401/network/ready/Kubo responses and no uploads.
+
 Need: safely retire legacy provider/wagering execution and deliver a truthful
 preparation-only shared Decent experience, with existing payroll tools rigged but
 inactive. Acceptance: receiving offline tests verify entrypoint denial, safe

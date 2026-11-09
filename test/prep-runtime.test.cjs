@@ -19,7 +19,9 @@ test('supported static server serves prep and blocks every historical route/muta
   assert.match(html, /app.mjs/);
   assert.doesNotMatch(html, /ClientWebApp|ChallengeFactory|web3.min|duolingo-api/);
   assert.match(response.headers.get('content-security-policy'), /frame-src 'none'/);
-  assert.doesNotMatch(response.headers.get('content-security-policy'), /duolingo|openai|pinata|publicnode/);
+  const csp = response.headers.get('content-security-policy');
+  assert.doesNotMatch(csp, /duolingo|openai|publicnode|pinFileToIPFS|pinByHash|api\/v0\/add|api\/v0\/pin/);
+  assert.match(csp, /connect-src 'self' https:\/\/api\.pinata\.cloud\/data\/testAuthentication http:\/\/127\.0\.0\.1:5001\/api\/v0\/version;/);
   for (const route of ['/challenge_watcher.js','/index.js','/server.js','/login','/accept','/counter_offer','/initiate_challenge','/view_challenge','/Challenge/dashboard.html','/public/js/ClientWebApp.js','/scripts/duolingo.py','/history/index.js.source','/payroll-queue.json','/contributor-accounts.json','/contracts/Challenge.sol','/.env','/%2e%2e%2findex.js']) {
     assert.equal((await fetch(base + route)).status, 410, route);
   }

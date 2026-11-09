@@ -1,8 +1,8 @@
 # BabelBet · preparation-only Decent language bridge
 
 Free participation, thoughtful language preparation, optional wallet session,
-private local profile files, accessible bunny-hop orientation and opt-in
-DBuskRadio. **This is not a new game or wagering build.**
+private local profile files and accessible bunny-hop orientation.
+**This is not a new game or wagering build.**
 
 All official **and** unofficial Duolingo access, watcher/provider loading,
 challenge/email/stake/payout runtime, deployment migrations and legacy consoles
@@ -31,15 +31,28 @@ Wallet connection is optional; it requests account access/Base network only,
 never a signature or payment. ENS is disabled. Profiles stay in tab memory unless
 explicitly saved locally, and export/import only validated plaintext local JSON.
 Shared IPFS host controls expose working local-profile backup/restore and report
-public upload/pinning/rewards unconfigured; no provider credentials are accepted.
+public upload/pinning/rewards unconfigured; provider selection is unverified and
+does not establish storage.
+Personal credentials are now accepted only in tab memory for the explicit
+shared read-only connection check; no credential is bundled, logged or saved.
 The shared facade is unchanged. Three explicit component host-bridge patches,
 upstream limitations and future consent/config-gated publishing are documented in
 [the host bridge](wiki/DecentHead-Host-Bridge.md).
 No assistant or browser API key pattern is enabled.
 
-DBuskRadio starts unloaded. Explicit consent loads the actual pinned standalone
-module; Play is a separate opt-in. Unload/revocation/pagehide destroys the widget.
-Tests stub module loading and never contact its host, worker or stream.
+The earlier opt-in radio widget is not mounted or served in this rollout.
+
+Provider verification adapts the shared `IPFSSession.verifyConnection()` flow
+and probe UI from the canonical DecentHead adoption at
+`00691c4fe93fd280f5aec780bdc4fac651bfcdb1`. CSP permits only the exact Pinata
+HTTPS authentication and loopback Kubo version endpoints, not uploads/pins.
+`IPFSStatus` shows ready only after a successful explicit connectivity probe.
+This does not verify backup, upload permissions, retention or rewards.
+Local-profile import/export remains local files; UCAN is unimplemented.
+
+`node test/provider-connect.browser.cjs` starts/stops its own preparation server
+and tests actual CSP, synthetic Pinata401/network/ready and Kubo version
+responses at 375px, with no automatic probes, upload/pin or credential leakage.
 
 ## Stewards, accepted work and future receipts
 

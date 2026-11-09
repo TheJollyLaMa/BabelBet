@@ -37,16 +37,9 @@
       <article>
         <span class="icon" aria-hidden="true">⬡</span><h2>Your data stays yours</h2>
         <p>Your nickname, languages and preparation notes stay in memory unless you explicitly choose this browser's local storage. Export/import is a local file operation, not an IPFS upload.</p>
-        <p>Shared IPFS controls report truthful unavailable states for public pinning and rewards. No provider keys are accepted and no upload is enabled.</p>
+        <p>Shared IPFS controls report unavailable public pinning and rewards. Provider choice is not verification. Explicit Verify checks personal Pinata authentication or local Kubo version without uploads. Credentials stay in tab memory; connectivity does not prove storage or retention.</p>
         <button id="privacy-open" class="secondary">Profile privacy controls</button>
       </article>
-    </section>
-    <section class="radio-panel" aria-labelledby="radio-heading">
-      <div><h2 id="radio-heading">A little music for the bridge</h2><p>DBuskRadio is a separate A Decent Agency product. Loading it contacts its pinned module host and radio service, which may see your IP. It may store radio preferences locally. It does not receive your profile or wallet from this app. Playback requires a separate Play click; never autoplay.</p></div>
-      <label class="radio-consent-target" for="radio-consent"><input type="checkbox" id="radio-consent"><span>I choose to load the external DBuskRadio widget in this tab.</span></label>
-      <div class="actions"><button id="radio-load" disabled>Load radio</button><button id="radio-remove" class="secondary" disabled>Unload radio</button></div>
-      <p id="radio-status" role="status" aria-live="polite">Radio not loaded · no external request</p>
-      <div id="radio-widget"></div>
     </section>
     <section class="policy" aria-labelledby="policy-heading"><h2 id="policy-heading">Respect people. Respect providers.</h2>
       <p>No account scraping, unofficial clients, bypasses, or live provider tests. A future proposal must first establish documented permission, lawful consent, a steward-reviewed minimum-data contract, rate limits, caching, backoff, outage handling, and offline fixtures. Permission is not implied by a public endpoint.</p>
