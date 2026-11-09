@@ -1,5 +1,1 @@
-const Migrations = artifacts.require("Migrations");
-
-module.exports = function (deployer) {
-  deployer.deploy(Migrations);
-};
+throw new Error('Preparation only: deployment disabled. Historical source is in history/migrations/.');
